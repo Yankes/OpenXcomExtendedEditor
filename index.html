@@ -3,7 +3,7 @@
   <head>
     <title>Editor</title>
     <meta charset="utf-8"/>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://codemirror.net/lib/codemirror.js"></script>
     <link rel="stylesheet" href="https://codemirror.net/lib/codemirror.css">
     <link rel="stylesheet" href="https://codemirror.net/addon/hint/show-hint.css">
@@ -13,117 +13,119 @@
     <script src="https://codemirror.net/addon/hint/javascript-hint.js"></script>
     <script>
     
-CodeMirror.defineSimpleMode("simplemode", {
+$( document ).ready(function() {
+  CodeMirror.defineSimpleMode("simplemode", {
 
-  // The start state contains the rules that are intially used
+    // The start state contains the rules that are intially used
 
-  start: [
+    start: [
 
-    // The regex matches the token, the token property contains the type
+      // The regex matches the token, the token property contains the type
 
-    {regex: /"(?:[^\\]|\\.)*?(?:"|$)/, token: "string"},
+      {regex: /"(?:[^\\]|\\.)*?(?:"|$)/, token: "string"},
 
-    // You can match multiple tokens at once. Note that the captured
+      // You can match multiple tokens at once. Note that the captured
 
-    // groups must span the whole string in this case
+      // groups must span the whole string in this case
 
-    {regex: /(function)(\s+)([a-z$][\w$]*)/,
+      {regex: /(function)(\s+)([a-z$][\w$]*)/,
 
-     token: ["keyword", null, "variable-2"]},
+       token: ["keyword", null, "variable-2"]},
 
-    // Rules are matched in the order in which they appear, so there is
+      // Rules are matched in the order in which they appear, so there is
 
-    // no ambiguity between this one and the one above
+      // no ambiguity between this one and the one above
 
-    {regex: /(?:function|var|return|if|for|while|else|do|this)\b/,
+      {regex: /(?:function|var|return|if|for|while|else|do|this)\b/,
+  
+       token: "keyword"},
 
-     token: "keyword"},
+      {regex: /true|false|null|undefined/, token: "atom"},
 
-    {regex: /true|false|null|undefined/, token: "atom"},
+      {regex: /0x[a-f\d]+|[-+]?(?:\.\d+|\d+\.?\d*)(?:e[-+]?\d+)?/i,
 
-    {regex: /0x[a-f\d]+|[-+]?(?:\.\d+|\d+\.?\d*)(?:e[-+]?\d+)?/i,
+       token: "number"},
 
-     token: "number"},
+      {regex: /\/\/.*/, token: "comment"},
 
-    {regex: /\/\/.*/, token: "comment"},
+      {regex: /\/(?:[^\\]|\\.)*?\//, token: "variable-3"},
 
-    {regex: /\/(?:[^\\]|\\.)*?\//, token: "variable-3"},
+      // A next property will cause the mode to move to a different state
 
-    // A next property will cause the mode to move to a different state
+      {regex: /\/\*/, token: "comment", next: "comment"},
 
-    {regex: /\/\*/, token: "comment", next: "comment"},
+      {regex: /[-+\/*=<>!]+/, token: "operator"},
 
-    {regex: /[-+\/*=<>!]+/, token: "operator"},
+      // indent and dedent properties guide autoindentation
 
-    // indent and dedent properties guide autoindentation
+      {regex: /[\{\[\(]/, indent: true},
 
-    {regex: /[\{\[\(]/, indent: true},
+      {regex: /[\}\]\)]/, dedent: true},
 
-    {regex: /[\}\]\)]/, dedent: true},
+      {regex: /[a-z$][\w$]*/, token: "variable"},
 
-    {regex: /[a-z$][\w$]*/, token: "variable"},
+      // You can embed other modes with the mode property. This rule
 
-    // You can embed other modes with the mode property. This rule
+      // causes all code between << and >> to be highlighted with the XML
 
-    // causes all code between << and >> to be highlighted with the XML
+      // mode.
 
-    // mode.
+      {regex: /<</, token: "meta", mode: {spec: "xml", end: />>/}}
 
-    {regex: /<</, token: "meta", mode: {spec: "xml", end: />>/}}
+    ],
 
-  ],
+    // The multi-line comment state.
 
-  // The multi-line comment state.
+    comment: [
 
-  comment: [
+      {regex: /.*?\*\//, token: "comment", next: "start"},
 
-    {regex: /.*?\*\//, token: "comment", next: "start"},
+      {regex: /.*/, token: "comment"}
 
-    {regex: /.*/, token: "comment"}
+    ],
 
-  ],
+    // The meta property contains global information about the mode. It
 
-  // The meta property contains global information about the mode. It
+    // can contain properties like lineComment, which are supported by
 
-  // can contain properties like lineComment, which are supported by
+    // all modes, and also directives like dontIndentStates, which are
 
-  // all modes, and also directives like dontIndentStates, which are
+    // specific to simple modes.
 
-  // specific to simple modes.
+    meta: {
 
-  meta: {
+      dontIndentStates: ["comment"],
 
-    dontIndentStates: ["comment"],
+      lineComment: "//"
 
-    lineComment: "//"
+    }
 
-  }
-
-});
+  });
 
 
-  function getCompletions(cm, option) {
-    return new Promise(function(accept) {
-      setTimeout(function() {
-        var cursor = cm.getCursor(), line = cm.getLine(cursor.line)
-        var start = cursor.ch, end = cursor.ch
-        while (start && /\w/.test(line.charAt(start - 1))) --start
-        //while (end < line.length && /\w/.test(line.charAt(end))) ++end
-        var word = line.slice(start, end).toLowerCase()
-        
-          return accept({list: [word + "a", word + "b", word + "c" ],
-                         from: CodeMirror.Pos(cursor.line, start),
-                         to: CodeMirror.Pos(cursor.line, end)})
-        return accept(null)
-      }, 100)
-    })
-  }
+    function getCompletions(cm, option) {
+      return new Promise(function(accept) {
+        setTimeout(function() {
+          var cursor = cm.getCursor(), line = cm.getLine(cursor.line)
+          var start = cursor.ch, end = cursor.ch
+          while (start && /\w/.test(line.charAt(start - 1))) --start
+          //while (end < line.length && /\w/.test(line.charAt(end))) ++end
+          var word = line.slice(start, end).toLowerCase()
 
-var myCodeMirror = CodeMirror(document.body, {
-  	value: "function myScript(){return 100;}\n",
-  	extraKeys: {"Ctrl-Space": "autocomplete"},
-  	mode:  "simplemode",
-  	hintOptions: {hint: getCompletions}
+            return accept({list: [word + "a", word + "b", word + "c" ],
+                           from: CodeMirror.Pos(cursor.line, start),
+                           to: CodeMirror.Pos(cursor.line, end)})
+          return accept(null)
+        }, 100)
+      })
+    }
+
+  var myCodeMirror = CodeMirror(document.body, {
+      value: "function myScript(){return 100;}\n",
+      extraKeys: {"Ctrl-Space": "autocomplete"},
+      mode:  "simplemode",
+      hintOptions: {hint: getCompletions}
+  });
 });
     </script>
   </head>
