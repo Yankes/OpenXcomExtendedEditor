@@ -1,3 +1,4 @@
+<div style="background:#ffdddd;">
 '''DID YOU KNOW?'''
 
 OpenXcom (and also OpenXcom Extended) have a ruleset syntax validation and auto-completion tool (a plugin for VSCode), which automatically finds and highlights all your syntax errors.
@@ -5,12 +6,15 @@ OpenXcom (and also OpenXcom Extended) have a ruleset syntax validation and auto-
 '''More info''': https://openxcom.org/forum/index.php/topic,6552.0.html
 
 '''Give it a try!'''
+</div>
 
 A reference of the customizable values of everything in a [[Rulesets (OpenXcom)|ruleset]], according to the latest OpenXcom nightly.
 * '''Last dev update''': 29th December 2025, by Meridian
-* '''Synchronized with''': OpenXcom v1.0 (2025-12-07 nightly build) and OpenXcom Extended v8.5 (2025-12-14)
+* '''Synchronized with''': OpenXcom v1.0 (2025-12-07 nightly build) <span style="background:#ddffdd;">and OpenXcom Extended v8.5 (2025-12-14)</span>
 
+<div style="background:#ddffdd;">
 '''IMPORTANT''': The OpenXcom Extended (OXCE) ruleset is highlighted using '''light green background''', just like the one used in this disclaimer. Anything marked green does not work with OpenXcom (OXC).
+</div>
 
 Some guidelines:
 * If a value is omitted from the ruleset, the default is used. You cannot omit ''required'' values.
@@ -21,8 +25,8 @@ Some guidelines:
 * Money amounts (prices, costs, etc.) are represented in dollars.
 * All file paths are case insensitive, but IDs (such as string IDs, music names, or cutscene names) are case sensitive.  In general, though, if it works on one operating system, it will work on all operating systems.
 * Items are ordered as they come in the ruleset. To override this, you can specify a '''listOrder''' attribute. You can find the default listOrders in [[Ruleset List Order (OpenXcom)|Ruleset List Order]].
-* The YAML parser ''yaml-cpp'' used by OXC and OXCE doesn't support the '''<<:''' operator (see https://support.atlassian.com/bitbucket-cloud/docs/yaml-anchors/). OXCE therefore implemented its own support for the same/similar functionality. It allows you to copy YAML code using anchors and override some of the copied values. OXCE allows this for almost all types of rulesets, via the '''refNode''' attribute. Below is an example for creating a new Laser Sniper Rifle item from an existing Laser Rifle item:
-```yaml
+* <span style="background:#ddffdd;">The YAML parser ''yaml-cpp'' used by OXC and OXCE doesn't support the '''<<:''' operator (see https://support.atlassian.com/bitbucket-cloud/docs/yaml-anchors/). OXCE therefore implemented its own support for the same/similar functionality. It allows you to copy YAML code using anchors and override some of the copied values. OXCE allows this for almost all types of rulesets, via the '''refNode''' attribute. Below is an example for creating a new Laser Sniper Rifle item from an existing Laser Rifle item:</span>
+
   items:
     - &STR_LASER_RIFLE           # Let's mark laser rifle info with an anchor
       type: STR_LASER_RIFLE
@@ -33,40 +37,35 @@ Some guidelines:
   # a million other attributes...
   #
     - type: STR_LASER_SNIPER_RIFLE
-      refNode: *STR_LASER_RIFLE  # First, let's copy everything from the STR_LASER_RIFLE anchor.
-                                 # Please note this is NOT inheritance, just a glorified copy-paste.
+      refNode: *STR_LASER_RIFLE  # First, let's copy everything from the STR_LASER_RIFLE anchor. Please note this is NOT inheritance, just a glorified copy-paste.
       bigSprite: xxx             # And now let's give it a new sprite,
       accuracyAimed: 160         # increase aimed shot accuracy
       tuAuto: 0                  # and disable auto shot.
-```
-*  OXCE allows changing how lists are overriden in sub-mods using YAML tags:
-```yaml
+
+* <span style="background:#ddffdd;"> OXCE allows changing how lists are overriden in sub-mods using YAML tags:</span>
+
   #base mod:
   items:
     - type: STR_WEAPON
-      compatibleAmmo: !info     # this tag does not change anything,
-                                # but when used it will show (in the log file)
-                                # if the list supports this functionality or not
+      compatibleAmmo: !info     #this tag does not change anything, but when used it will show (in the log file) if the list supports this functionality or not
         - STR_AMMO_1
         - STR_AMMO_2
   
   #sub-mod
   items:
     - type: STR_WEAPON
-      compatibleAmmo: !add      # now `STR_WEAPON` will have ammo list equal to
-                                # `[STR_AMMO_1, STR_AMMO_2, STR_AMMO_3]`
+      compatibleAmmo: !add      #now `STR_WEAPON` will have ammo list equal to `[STR_AMMO_1, STR_AMMO_2, STR_AMMO_3]`
         - STR_AMMO_3
   
   #another sub-mod
   items:
     - type: STR_WEAPON
-      compatibleAmmo: !remove   # now `STR_WEAPON` will have ammo list equal to
-                                # `[STR_AMMO_1, STR_AMMO_3]`
+      compatibleAmmo: !remove   #now `STR_WEAPON` will have ammo list equal to `[STR_AMMO_1, STR_AMMO_3]`
         - STR_AMMO_2
-```
 
-*  Another feature (added in OXCE v7.9) allows modders to better control how rulesets are overridden between mods and submods:
-```yaml
+
+* <span style="background:#ddffdd;"> Another feature (added in OXCE v7.9) allows modders to better control how rulesets are overridden between mods and submods:</span>
+
   items: !info                # this tag can be used to check if a given ruleset supports the new features
     - type: STR_RANDOM        # from OXC, this was effectively split into `update:` and `new:` to make modder's intention clearer
     - delete: STR_X           # from OXC
@@ -74,7 +73,6 @@ Some guidelines:
     - override: STR_OLD_NAME  # check if this name was used already and update the given item, hard error if the item did not exist
     - update: STR_OPTIONAL    # check if this name was used already and update the given item, do nothing if the item did not exist
     - ignore: STR_TECHNICAL   # don't load this ruleset directly (for example because it's used only as a YAML anchor)
-```
 
 === metadata.yml ===
 
@@ -172,7 +170,7 @@ One file (per mod) selected by '''metadata.yml''', all such files are loaded bef
 
 Defines the content of the base at the start of game.
 
-In OXCE, you can optionally define different starting bases for each game difficulty using the following top-level names:
+<div style="background:#ddffdd;">In OXCE, you can optionally define different starting bases for each game difficulty using the following top-level names:
 * startingBaseBeginner
 * startingBaseExperienced
 * startingBaseVeteran
@@ -182,6 +180,7 @@ In OXCE, you can optionally define different starting bases for each game diffic
 If you don't define some of them, the default starting base will be used instead of the missing ones.
 
 The default starting base will also be used for New Battle screen.
+</div>
 
 {| class="wikitable" width="100%"
 ! width="150"| Value
@@ -191,11 +190,9 @@ The default starting base will also be used for New Battle screen.
 | '''randomSoldiers'''
 | Determines number and type of starting X-Com soldiers.
 If a mod contains more than one type of soldiers, this can also be specified with:
-```yaml
   randomSoldiers:
     STR_SOLDIER: 3
     STR_ANOTHER_SOLDIER: 7
-```
 | 0
 |-
 | '''scientists'''
@@ -221,8 +218,8 @@ If a mod contains more than one type of soldiers, this can also be specified wit
 
 OpenXcom uses the same format to define a starting base as for saving/loading a real base (except for '''randomSoldiers''' attribute).
 That means you can also define various other parameters in your mod, for example:
-* predefined location (longitude and latitude in radians)
-* predefined name
+* <span style="background:#ddffdd;">predefined location (longitude and latitude in radians)</span>
+* <span style="background:#ddffdd;">predefined name</span>
 * predefined soldiers (if you don't like to start with randomly generated ones, but like it a bit more RPG)
 * transfers that arrive at specified times (you could control various game events/progression with these items)
 * base detected by aliens flag (which would allow you for example to start the campaign with an early scripted base defense mission)
@@ -350,12 +347,11 @@ Notes:
 | '''terrain'''
 | List of terrains (can be more than one) that correspond to each [[TEXTURE.DAT|Geoscape texture]].
 
-Terrains can be restricted to certain areas on the globe with '''area: (''[lon1,lon2,lat1,lat2]'')''' and '''weight: NUMBER''' that gives their chance of appearance.
+Terrains can be restricted to certain areas on the globe with '''area: (''[lon1, lon2, lat1, lat2]'')''' and '''weight: NUMBER''' that gives their chance of appearance.
 
 These textures are primarily used for UFO landing/crash sites.
 
 Example 1:
-```yaml
  globe:
    textures:
      - id: 0
@@ -365,9 +361,7 @@ Example 1:
          - name: JUNGLE
            area: [0, 360, 0, 90]
 
-```
 Example 2:
-```yaml
  globe:
    textures:
      - id: 11
@@ -378,21 +372,18 @@ Example 2:
            weight: 25
          - name: CORAL
            weight: 25
-```
 | -
 |-
 | '''deployments'''
 | Defined by weighted alien deployments (can be more than one), which determine appearance for mission sites (e.g. terror sites, artifact sites, shipping lanes, etc.).
 
 Example:
-```yaml
  globe:
    textures:
      - id: -4
        deployments:
          STR_CARGO_SHIP_P1: 50
          STR_CRUISE_SHIP_P1: 50
-```
 | -
 |- style="background-color:#ddffdd;"
 | '''baseTerrain'''
@@ -432,7 +423,8 @@ More info: https://openxcom.org/forum/index.php?topic=12439.0
 
 Defines one of the [[Country Funding (EU)|funding nations]], listed in ''"countries:"''. They're used for activity graphs and player scoring.
 
-In OXCE, the same kind of ruleset can be used to define "extra globe labels" so that you can label continents, or anything else on non-Earth globes (e.g. Moon, Mars, Dune, etc.). Of course, nothing is stopping you from using this on the Earth globe too. Listed under its own top-level category ''"extraGlobeLabels:"''.
+<div style="background:#ddffdd;">In OXCE, the same kind of ruleset can be used to define "extra globe labels" so that you can label continents, or anything else on non-Earth globes (e.g. Moon, Mars, Dune, etc.). Of course, nothing is stopping you from using this on the Earth globe too. Listed under its own top-level category ''"extraGlobeLabels:"''.
+</div>
 
 {| class="wikitable" width="100%"
 ! width="150"| Value
@@ -478,7 +470,7 @@ In OXCE, the same kind of ruleset can be used to define "extra globe labels" so 
 | 0 (not used)
 |-
 | '''areas'''
-| List of "rectangles" on the globe defined as ''[lon1,lon2,lat1,lat2]''. Any activity within these areas counts towards the country's graph activity and affects their opinion of the player.
+| List of "rectangles" on the globe defined as [''lon1'' ''lon2'' ''lat1'' ''lat2'']. Any activity within these areas counts towards the country's graph activity and affects their opinion of the player.
 | -
 |- style="background-color:#ddffdd;"
 | '''zoomLevel'''
@@ -514,15 +506,13 @@ Defines one of the [[Geoscape (EU)#World Regions/Countries|world regions]], list
 | 0
 |-
 | '''areas'''
-| List of "rectangles" on the globe defined as ''[lon1,lon2,lat1,lat2]''. Any activity within these areas counts towards the region's graph activity.
+| List of "rectangles" on the globe defined as ''[lon1, lon2, lat1, lat2]''. Any activity within these areas counts towards the region's graph activity.
 
 Example:
-```yaml
   regions:
     - type: STR_EUROPE
       areas:
         - [335, 60, -70, -35]
-```
 | -
 |- style="background-color:#ddffdd;"
 | '''deleteOldAreas'''
@@ -540,39 +530,32 @@ Example:
 | '''missionZones'''
 | List of mission zones. Mission zones are used for generating waypoints for UFO trajectories, and also for spawning mission sites and alien bases.
 Each mission zone itself is a list of '''mission areas''', where each area is defined by:
-* a "rectangle" (''[lon1,lon2,lat1,lat2]'') defining a relevant section of the globe (does not need to be within the region itself)
-* or a single point (''[lon1,lon1,lat1,lat1]'') (a city) on the globe
+* a "rectangle" (''[lon1, lon2, lat1, lat2]'') defining a relevant section of the globe (does not need to be within the region itself)
+* or a single point (''[lon1, lon1, lat1, lat1]'') (a city) on the globe
 
 Example:
-```yaml
  missionZones: 
    - - [326, 353, -85, -81]
      - [132, 173, -79, -76]
    - - [302, 323, -80, -78]
      - [62, 66, -76, -75]
-```
 Areas used for mission site spawning additionally have:
 * a texture ID (from globe ruleset, this should be the alienDeployment-based texture, usually the ID is a negative number)
 * and optionally a city string ID (will be displayed on the globe if defined)
 
 Example:
-```yaml
  missionZones: 
    - - [326, 353, -85, -81, textureID, STR_CITY_NAME]
      - [132, 173, -79, -76, textureID, STR_CITY_NAME]
 
-```
 '''Important:''' Crossing the prime meridian in '''missionZones''' requires a different syntax - ''lon2'' cannot be smaller than ''lon1''! This syntax exception does not apply to region '''areas'''.
 
 Example:
-```yaml
  # Wrong crossing:
  [350, 8, 20, 30]
  # Correct crossing:
- [350, 368, 20, 30]  # 368 (=8+360) also represents 8 degrees,
-                     # and satisfies the ''lon2 >= lon1'' condition
+ [350, 368, 20, 30]  # 368 (=8+360) also represents 8 degrees, and satisfies the ''lon2 >= lon1'' condition
 
-```
 | -
 |-
 | '''missionRegion'''
@@ -693,7 +676,6 @@ Note: destruction can happen either in Base Defense mission or via Alien missile
 | '''buildCostItems'''
 | Items needed to build a facility and items "refunded" when the facility is dismantled.
 
-```yaml
   - type: STR_MY_FACILITY
     buildCostItems:
       STR_ALIEN_ALLOYS:
@@ -703,7 +685,6 @@ Note: destruction can happen either in Base Defense mission or via Alien missile
         build: 1
         refund: 1
 
-```
 | -
 |-
 | '''buildTime'''
@@ -847,7 +828,6 @@ FIXME: add a link to more detailed description of this feature!
 | '''sickBayAbsoluteBonus'''<br/>'''sickBayRelativeBonus'''
 | How much additional HP is healed per day.
 
-```yaml
   - type: STR_FIELD_HOSPITAL
     sickBayAbsoluteBonus: 0.75
     sickBayRelativeBonus: 0.0
@@ -861,7 +841,6 @@ FIXME: add a link to more detailed description of this feature!
     sickBayAbsoluteBonus: 90.0
     sickBayRelativeBonus: 0.0
 
-```
 Examples, considering the ruleset above:
 * with no facilities: 1 hp healed per day
 * with one field hospital: 1.75 hp per day
@@ -975,18 +954,18 @@ Note: if not modded, sprite id 1 is used (=vanilla craft marker)
 | '''weapons'''
 | Amount of craft weapons this craft can equip. The UI can only display a max of 2 weapons.
 
-In OXCE, you can have up to '''4 weapons''' (or other accessories)
+<span style="background:#ddffdd;">In OXCE, you can have up to '''4 weapons''' (or other accessories)</span>
 | 0
 |- style="background-color:#ddffdd;"
 | '''weaponTypes'''
 | A list defining compatible weapon types for this craft type. Up to 4 slots, and each slot can have up to 4 compatible weapon types.
 
-Example: [0,[0,1],[2,3],[0,2,4]]
-| [0,0,0,0]
+Example: [0, [0, 1], [2,3], [0,2,4]]
+| [0, 0, 0, 0]
 |- style="background-color:#ddffdd;"
 | '''weaponStrings'''
 | A list describing the craft's weapon slots (up to 4 slots).
-| [STR_WEAPON_ONE,STR_WEAPON_TWO]
+| [STR_WEAPON_ONE, STR_WEAPON_TWO]
 |- style="background-color:#ddffdd;"
 | '''fixedWeapons'''
 | A list with fixed built-in craft weapons (up to 4 slots). More info: https://openxcom.org/forum/index.php/topic,9047.0.html
@@ -1015,7 +994,7 @@ Example: [0,[0,1],[2,3],[0,2,4]]
 | '''vehicles'''
 | Amount of vehicles this craft can carry.
 
-Note: in OXCE, it's the amount of vehicles '''and''' 2x2 soldiers. In OXCE, it can also have a value of -1, which means unlimited. Since OXCE v7.10, value -1 is '''not''' supported anymore.
+<span style="background:#ddffdd;">Note: in OXCE, it's the amount of vehicles '''and''' 2x2 soldiers. In OXCE, it can also have a value of -1, which means unlimited. Since OXCE v7.10, value -1 is '''not''' supported anymore.</span>
 | 0
 |- style="background-color:#ddffdd;"
 | '''maxHWPUnitsLimit'''
@@ -1129,7 +1108,7 @@ Note: Skyranger, Interceptor, Triton and Barracuda have this turned on (for back
 | -
 |- style="background-color:#ddffdd;"
 | '''craftInventoryTile'''
-| Coordinates [x,y,z] of the craft inventory tile (weapon's pile) in the craft. If not specified, tile occupied by the first soldier is used.
+| Coordinates [x, y, z] of the craft inventory tile (weapon's pile) in the craft. If not specified, tile occupied by the first soldier is used.
 
 Note: You can change this attribute only if your mod also contains the '''battlescapeTerrainData''' attribute. Since OXCE 7.4.4 this limitation doesn't apply.
 
@@ -1147,7 +1126,7 @@ More info: https://openxcom.org/forum/index.php/topic,10713.msg161170.html#msg16
 | -
 |-
 | '''deployment'''
-| Custom positions for the unit deployment in the craft, listed as: ''[x,y,z,facing]''
+| Custom positions for the unit deployment in the craft, listed as: ''[x, y, z, facing]''
 If not specified, units are placed on empty spots from top-left to bottom-right facing top-right.
 | -
 |- style="background-color:#ddffdd;"
@@ -1192,7 +1171,7 @@ More info: https://openxcom.org/forum/index.php/topic,10370.msg144057.html#msg14
 | '''maxItems'''
 | Amount of items this craft can carry.
 
-'''Note:''' In OXCE, the default for a craft is 999999.
+<span style="background:#ddffdd;">'''Note:''' In OXCE, the default for a craft is 999999.</span>
 | 0
 |- style="background-color:#ddffdd;"
 | '''shieldRechargedAtBase'''
@@ -1210,7 +1189,7 @@ More info: https://openxcom.org/forum/index.php?topic=12377.0
 
 The following attributes define so called "craft stats". They are listed in a separate table, just for convenience... but are still part of the Craft ruleset.
 
-'''Note:''' In OXCE, all these stats are dynamic, i.e. can be modified by equipping craft weapons/accessories.
+<span style="background:#ddffdd;">'''Note:''' In OXCE, all these stats are dynamic, i.e. can be modified by equipping craft weapons/accessories.</span>
 
 {| class="wikitable" width="100%"
 ! width="150"| Value
@@ -1543,7 +1522,7 @@ Note: you ''can'' use the item even if the requirements are not met... you just 
 | 0
 |- style="background-color:#ddffdd;"
 | '''monthlySalary'''
-| Monthly salary of "other employees" (represented as items in Stores). This is practically identical to monthlyMaintenance, it just shows on a different place in the [[Monthly costs]] screen.
+| Monthly salary of "other employees" (represented as items in Stores). This is practically identical to monthlyMaintenance, it just shows on a different place in the [Monthly costs] screen.
 
 Note: the "other employees" can't do much (yet), but you could use them for example to increase your Stores capacity (by giving them negative '''size''')... representing increased storage effectiveness by hiring specialized logistics personnel (or outsourcing storage completely).
 | 0
@@ -1557,7 +1536,7 @@ Note: the "other employees" can't do much (yet), but you could use them for exam
 ! width="80" | Default
 |- style="background-color:#ddffdd;"
 | '''customItemPreviewIndex'''
-| Allows to have different icons for different types of Vehicles (HWP/SWS) on the [[Craft Info]] screen. Defined either as a single index into the CustomItemPreviews spritesheet, or as a list of indices (for bigger icons).
+| Allows to have different icons for different types of Vehicles (HWP/SWS) on the [Craft Info] screen. Defined either as a single index into the CustomItemPreviews spritesheet, or as a list of indices (for bigger icons). 
 
 Since OXCE v7.13: Ability to use `customItemPreviewIndex` for normal items too: https://openxcom.org/forum/index.php?topic=12122.0
 | -
@@ -1633,15 +1612,11 @@ Note: If used on ammo, overrides weapon's values. This is also the case for othe
 Note:
 The '''vaporColor''' and '''vaporColorSurface''' indices are mod-specific since OXCE 7.1, not global anymore. If you want to use a vapor color from a parent mod, you need to specify it explicitly, for example:
 
-```yaml
   vaporColor: { mod: xcom2, index: 0 }
 
-```
 instead of
 
-```yaml
   vaporColor: 0
-```
 | -1
 |- style="background-color:#ddffdd;"
 | '''vaporDensitySurface'''
@@ -1677,11 +1652,11 @@ instead of
 | -
 |-
 | '''fireSound'''
-| Sound ID from [[#Extra_Sounds|BATTLE.CAT]] played when this weapon/ammo is fired, with ammo's value overriding weapon's. In OXCE, can be a list with multiple options.
+| Sound ID from [[#Extra_Sounds|BATTLE.CAT]] played when this weapon/ammo is fired, with ammo's value overriding weapon's. <span style="background:#ddffdd;">In OXCE, can be a list with multiple options.</span>
 | -1
 |-
 | '''hitSound'''
-| Sound ID from [[#Extra_Sounds|BATTLE.CAT]] played when this weapon hits a target. In OXCE, can be a list with multiple options.
+| Sound ID from [[#Extra_Sounds|BATTLE.CAT]] played when this weapon hits a target. <span style="background:#ddffdd;">In OXCE, can be a list with multiple options.</span>
 | -1
 |- style="background-color:#ddffdd;"
 | '''psiSound'''
@@ -1697,11 +1672,11 @@ instead of
 | -
 |-
 | '''meleeSound'''
-| Sound ID from [[#Extra_Sounds|BATTLE.CAT]] played when this weapon attacks a target with melee. In OXCE, can be a list with multiple options.
+| Sound ID from [[#Extra_Sounds|BATTLE.CAT]] played when this weapon attacks a target with melee. <span style="background:#ddffdd;">In OXCE, can be a list with multiple options.</span>
 | 39
 |-
 | '''meleeHitSound'''
-| Sound ID from [[#Extra_Sounds|BATTLE.CAT]] played when this weapon hits a target with melee. In OXCE, can be a list with multiple options.
+| Sound ID from [[#Extra_Sounds|BATTLE.CAT]] played when this weapon hits a target with melee. <span style="background:#ddffdd;">In OXCE, can be a list with multiple options.</span>
 | -1
 |- style="background-color:#ddffdd;"
 | '''meleeMissSound'''
@@ -1709,7 +1684,7 @@ instead of
 | -
 |-
 | '''hitAnimation'''
-| Sprite ID from [[SMOKE.PCK]] used to draw the weapon's "hit explosion". In OXCE, it applies also to Use action of psi weapons.
+| Sprite ID from [[SMOKE.PCK]] used to draw the weapon's "hit explosion". <span style="background:#ddffdd;">In OXCE, it applies also to Use action of psi weapons.</span>
 '''NOTE''': Do not define this value for melee/psi weapons, they use [[HIT.PCK]] and therefore meleeAnimation instead.
 
 '''NOTE''': Explosive style weapons (Damage type: smoke, incendiary, stun, & High Explosive) use [[X1.PCK]] and should always be set to the first ''above water'' sprite (spriteID for UFO, spriteID + 8 for TFTD). TFTD spritesheet should start with 8 underwater images, followed by 8 above water images. 
@@ -1765,7 +1740,8 @@ Defaults are:
 | -1
 |}
 
-It can be pretty confusing, which sound/animation is played when... so here's an attempt to illustrate what happens. For each combination of "event" and "type of attack", there are multiple variables... the first variable that is not empty is used.
+<div style="background:#ddffdd;">It can be pretty confusing, which sound/animation is played when... so here's an attempt to illustrate what happens. For each combination of "event" and "type of attack", there are multiple variables... the first variable that is not empty is used.
+</div>
 
 {| class="wikitable"
 !  !! Bullets (non-explosive) !! Melee weapon (or gun-butt) !! Psi weapon (panic/MC) !! Psi weapon (Use)
@@ -1826,13 +1802,13 @@ Note: this can be used for example when the weapon is mostly scripted and the da
 * 9 - Smoke
 Notes:
 * A damage type other than 0-9 will do nothing in OpenXcom.
-* In OXCE, there are '''10 more damage types''' (10-19), which have same default settings as AP/Laser/Plasma/Acid damage types in OpenXcom.
+* <span style="background:#ddffdd;">In OXCE, there are '''10 more damage types''' (10-19), which have same default settings as AP/Laser/Plasma/Acid damage types in OpenXcom.</span>
 | 0
 |-
 | '''blastRadius'''
 | Size of the projectile explosions. 0 for no explosion. -1 to automatically calculate based on weapon power and damage type (actual '''blastRadius''' currently is capped due [[Explosions#Playing_With_Fire|Explosion calculations]]).
 
-Note: blastRadius is deprecated in OXCE. Use '''damageAlter.FixRadius''' instead. If both are specified, FixRadius is taken.
+<span style="background:#ddffdd;">Note: blastRadius is deprecated in OXCE. Use '''damageAlter.FixRadius''' instead. If both are specified, FixRadius is taken.</span>
 | -1
 |- style="background-color:#ddffdd;"
 | '''damageAlter'''
@@ -1843,7 +1819,6 @@ Damage override has many attributes, which are all described in [[#Item Damage T
 
 Small example:
 
-```yaml
   - type: STR_HWP_DISC_PLASMA_CANNON
     damageType: 5
     damageAlter:
@@ -1855,7 +1830,6 @@ Small example:
       ToWound: 0.12
       FireThreshold: 25
 
-```
 | -
 |-
 | '''meleePower'''
@@ -1875,7 +1849,7 @@ Damage override has many attributes, which are all described in [[#Item Damage T
 | '''strengthApplied'''
 | Add the attacking unit's strength to this weapon's damage.
 
-Note: strengthApplied is deprecated in OXCE. Use '''damageBonus''' instead, which is also more configurable. If both are specified, damageBonus is taken.
+<span style="background:#ddffdd;">Note: strengthApplied is deprecated in OXCE. Use '''damageBonus''' instead, which is also more configurable. If both are specified, damageBonus is taken.</span>
 | false
 |- style="background-color:#ddffdd;"
 | '''damageBonus'''
@@ -1883,7 +1857,6 @@ Note: strengthApplied is deprecated in OXCE. Use '''damageBonus''' instead, whic
 
 Example:
 
-```yaml
   - type: STR_EXAMPLE_1
     damageBonus:
       bravery: 2.5
@@ -1892,7 +1865,6 @@ Example:
     damageBonus:
       firing: [0.0, 0.01]
 
-```
 In the first example the power bonus is "250% of soldier's bravery minus 125".
 
 In the second example the power bonus is "0% of firing accuracy plus 1% of firing accuracy squared".
@@ -1917,7 +1889,7 @@ In the second example the power bonus is "0% of firing accuracy plus 1% of firin
 | '''accuracyAimed'''<br/>'''accuracySnap'''<br/>'''accuracyAuto'''<br/>'''accuracyMelee'''
 | The base accuracy (in percent) applied to a soldier's [[Firing Accuracy]] when firing an Aimed/Snap/Auto shot or doing a Melee attack.
 
-Note: in OXCE, it doesn't need to be applied only to firing accuracy, a combination of many other attributes can be used instead, see '''accuracyMultiplier''' and '''meleeMultiplier'''.
+<span style="background:#ddffdd;">Note: in OXCE, it doesn't need to be applied only to firing accuracy, a combination of many other attributes can be used instead, see '''accuracyMultiplier''' and '''meleeMultiplier'''.</span>
 | 0<br/>0<br/>0<br/>0
 |- style="background-color:#ddffdd;"
 | '''accuracyPanic'''<br/>'''accuracyMindControl'''<br/>'''accuracyUse'''
@@ -1951,7 +1923,7 @@ Note: in OXCE, it doesn't need to be applied only to firing accuracy, a combinat
 | '''skillApplied'''
 | Is melee accuracy skill applied to the accuracy of an attack made with this item? Only affects melee attacks.
 
-Note: skillApplied is deprecated in OXCE. Use '''meleeMultiplier''' instead, which is also more configurable. If both are specified, meleeMultiplier is taken.
+<span style="background:#ddffdd;">Note: skillApplied is deprecated in OXCE. Use '''meleeMultiplier''' instead, which is also more configurable. If both are specified, meleeMultiplier is taken.</span>
 | true
 |- style="background-color:#ddffdd;"
 | '''accuracyMultiplier'''
@@ -1959,14 +1931,12 @@ Note: skillApplied is deprecated in OXCE. Use '''meleeMultiplier''' instead, whi
 
 Example:
 
-```yaml
   - type: STR_EXAMPLE
     accuracyMultiplier:
       firing: 0.0
       throwing: 0.5
       melee: 0.5
 
-```
 In this example, the accuracy is based on 50% of unit's throwing skill and 50% of unit's melee skill... and 0% of unit's firing skill.
 | -
 |- style="background-color:#ddffdd;"
@@ -2101,7 +2071,6 @@ More info: https://openxcom.org/forum/index.php?topic=11843.msg165667#msg165667
 
 Example:
 
-```yaml
   - type: STR_WEAPON_WITH_4_AMMO_SLOTS
     ammo:
       0:
@@ -2121,7 +2090,6 @@ Example:
         tuLoad: 20
         tuUnload: 8
 
-```
 | -
 |-
 | '''autoShots'''
@@ -2137,7 +2105,6 @@ Example:
 
 Example 1:
 
-```yaml
   - type: STR_RIFLE_WITH_A_GRENADE_LAUNCHER
     confAimed:
       shots: 1
@@ -2147,8 +2114,7 @@ Example 1:
       arcing: false
     confSnap:
       shots: 2
-      followProjectiles: false    # the camera stays still while shooting
-                                  # (prevents minigun seizures)
+      followProjectiles: false   # the camera stays still while shooting (prevents minigun seizures)
       name: STR_DOUBLE_SNAP_SHOT
       ammoSlot: 0
       arcing: false
@@ -2160,10 +2126,8 @@ Example 1:
     confMelee:
       name: STR_PUNCH_IN_THE_FACE
 
-```
 Example 2: Battery-powered weapons: https://openxcom.org/forum/index.php/topic,9293.0.html
 
-```yaml
   - type: STR_LASGUN
     compatibleAmmo: [STR_LASGUN_CLIP]
     confAimed:
@@ -2174,10 +2138,8 @@ Example 2: Battery-powered weapons: https://openxcom.org/forum/index.php/topic,9
     tags:
       BPL_AIMED_2X_POWER: 1  # custom script
 
-```
 Example 3: Custom names and custom short names: https://openxcom.org/forum/index.php/topic,9742.msg143229.html#msg143229
 
-```yaml
  items:
    - type: STR_RIFLE
      confAimed:
@@ -2202,10 +2164,8 @@ Example 3: Custom names and custom short names: https://openxcom.org/forum/index
        STR_SMALL_BOOM_X2: "Double boom"
        STR_SMALL_BOOM_X2_SHORT: "Small (x{0})"
 
-```
 Example 4: Various probabilities overridden by shot type/action: https://openxcom.org/forum/index.php?topic=12537.msg170617#msg170617
 
-```yaml
  items:
    - type: STR_PISTOL
      confAimed:
@@ -2213,7 +2173,6 @@ Example 4: Various probabilities overridden by shot type/action: https://openxco
        ammoSpawnUnitChanceOverride: 20
        ammoSpawnItemChanceOverride: 30
 
-```
 | -
 |- style="background-color:#ddffdd;"
 | '''psiAttackName'''
@@ -2269,7 +2228,6 @@ Tip: in OXCE more item battleTypes can be primed than in OpenXcom, for example a
 
 Example:
 
-```yaml
   - type: STR_FUNNY_WEAPON
     costAimed:
       time: 90
@@ -2277,7 +2235,6 @@ Example:
       morale: 65
       mana: 5
 
-```
 | -
 |-
 | '''flatRate'''
@@ -2289,7 +2246,6 @@ Example:
 
 Example:
 
-```yaml
   - type: STR_FUNNY_WEAPON
     costAimed:
       time: 90
@@ -2300,7 +2256,6 @@ Example:
       energy: true  # 20 energy (flat)
       mana: true    # 5 mana (flat)
 
-```
 | -
 |}
 
@@ -2320,10 +2275,7 @@ More info: https://openxcom.org/forum/index.php/topic,4230.0.html
 | '''manaExperience'''
 | How much mana experience points does the weapon provide. Since OXCE v6.6, this attribute also works on psi-amps (also on unsuccessful attempts).
 
-```yaml
-  manaExperience: 250   # this means 2 points + 50% chance
-                        # for a 3rd point (on every hit on hostile unit)
-```
+  manaExperience: 250    # this means 2 points + 50% chance for a 3rd point (on every hit on hostile unit)
 | 0
 |-
 | '''recover'''
@@ -2351,7 +2303,7 @@ More info: https://openxcom.org/forum/index.php/topic,4830.msg69933.html#msg6993
 | '''specialType'''
 | MCD value in map files to which this item corresponds for mission recovery.
 
-Note: in OXCE, '''specialType''' >= 200 are reserved for death traps, so please don't use them. More info: https://openxcom.org/forum/index.php/topic,7671.msg132978.html#msg132978
+<span style="background:#ddffdd;">Note: in OXCE, '''specialType''' >= 200 are reserved for death traps, so please don't use them. More info: https://openxcom.org/forum/index.php/topic,7671.msg132978.html#msg132978</span>
 | -1
 |- style="background-color:#ddffdd;"
 | '''recoveryDividers'''
@@ -2499,10 +2451,8 @@ Tip: size and position of buttons can also be adjusted using Interface ruleset (
 |- style="background-color:#ddffdd;"
 | '''inventoryMoveCost'''
 | Cost of moving item between slots. Does not apply to dropping items from hands.
-```yaml
  inventoryMoveCost:
    basePercent: 100 #TU multiplier of base cost
-```
 | 100
 |-
 | '''fixedWeapon'''
@@ -2584,7 +2534,6 @@ Defaults:
 
 Example/Defaults:
 
-```yaml
   fuseTriggerEvents:
     defaultBehavior: true
     throwTrigger: false
@@ -2592,7 +2541,6 @@ Example/Defaults:
     proximityTrigger: false
     proximityExplode: false
 
-```
 | <=
 |- style="background-color:#ddffdd;"
 | '''specialChance'''
@@ -2741,18 +2689,16 @@ Note: Mind-controlling friendlies is never possible, hardcoded. Panicking friend
 
 2/ How many times should an AI unit try to perform a melee attack (in the single go)? In vanilla, the unit used the melee attack until the target was neutralized or until it ran out of TUs. This attribute gives you the option to perform "hit and run".
 
-```yaml
   ai:
     useDelay: 1
     meleeHitCount: 15
 
-```
 | -1<br/>25
 |}
 
 === Item Categories ===
 
-Defines some extra behavior (and list order) of item categories, listed in ''"itemCategories:"''.
+<span style="background:#ddffdd;">Defines some extra behavior (and list order) of item categories, listed in ''"itemCategories:"''.</span>
 
 {| class="wikitable" width="100%"
 ! width="150"| Value
@@ -2764,7 +2710,7 @@ Defines some extra behavior (and list order) of item categories, listed in ''"it
 | ''required''
 |- style="background-color:#ddffdd;"
 | '''hidden'''
-| Defines whether this category should be hidden in the filter on the [[Craft Equipment]] screen.
+| Defines whether this category should be hidden in the filter on the [Craft Equipment] screen.
 
 Note: categories not shown to the player are still useful for the modder sometimes.
 | false
@@ -2784,7 +2730,7 @@ More info here: https://openxcom.org/forum/index.php?topic=7868.msg161832#msg161
 
 === Weapon Sets ===
 
-Defines sets of items/weapons, listed in ''"weaponSets:"''. More info here: https://openxcom.org/forum/index.php?topic=12065.0
+<span style="background:#ddffdd;">Defines sets of items/weapons, listed in ''"weaponSets:"''. More info here: https://openxcom.org/forum/index.php?topic=12065.0</span>
 
 {| class="wikitable" width="100%"
 ! width="150"| Value
@@ -2804,7 +2750,7 @@ Note: currently only used within '''weightedBuiltInWeaponSets'''.
 
 === Item Damage Types ===
 
-These are the sub-attributes you can use within attributes '''damageAlter''' and '''meleeAlter'''. Listed separately for convenience.
+<span style="background:#ddffdd;">These are the sub-attributes you can use within attributes '''damageAlter''' and '''meleeAlter'''. Listed separately for convenience.</span>
 
 {| class="wikitable" width="100%"
 ! width="150"| Value
@@ -2934,7 +2880,6 @@ Example 2: Power = 100. Primary damage rolled = for example 140. ToArmorPre = 0.
 |- style="background-color:#ddffdd;"
 | '''RandomWound'''
 | Alters the above calculation. Default settings equal to vanilla calculations. Formula is quite hard to describe in words, so here's the code:
-```yaml
   if (damage > 0) {
     if (RandomWound) {
       if (RNG::generate(0, 10) < int(damage * ToWound)) {
@@ -2945,7 +2890,6 @@ Example 2: Power = 100. Primary damage rolled = for example 140. ToArmorPre = 0.
     }
   }
 
-```
 | true
 |- style="background-color:#ddffdd;"
 | '''ToTime'''
@@ -3011,50 +2955,50 @@ Example 2: Power = 100. Primary damage rolled = for example 140. ToArmorPre = 0.
 | -1
 |}
 
-'''IMPORTANT''': The defaults above are the generic defaults. For each damage type, there are also specific defaults that emulate the vanilla hardcoded damage types. For modding purposes, the specific defaults are relevant (they override the generic ones). Below is the summary of the specific defaults.
+<div style="background:#ddffdd;">'''IMPORTANT''': The defaults above are the generic defaults. For each damage type, there are also specific defaults that emulate the vanilla hardcoded damage types. For modding purposes, the specific defaults are relevant (they override the generic ones). Below is the summary of the specific defaults.</div>
 
 {| class="wikitable" width="100%"
 !  !! DT_NONE !! DT_AP !! DT_IN !! DT_HE !! DT_LASER !! DT_PLASMA !! DT_STUN !! DT_MELEE !! DT_ACID !! DT_SMOKE !! DT_10 ... DT_19
 |- style="background-color:#ddffdd;"
 | RandomType || 5 || 8 || 4 || 9 || 8 || 8 || 8 || 8 || 8 || 5 || 8
 |- style="background-color:#ddffdd;"
-| ResistType || &nbsp; || 1 || 2 || 3 || 4 || 5 || 6 || 7 || 8 || 9 || 10 ... 19
+| ResistType ||  || 1 || 2 || 3 || 4 || 5 || 6 || 7 || 8 || 9 || 10 ... 19
 |- style="background-color:#ddffdd;"
-| FireBlastCalc || &nbsp; || &nbsp; || true || &nbsp; || &nbsp; || &nbsp; || &nbsp; || &nbsp; || &nbsp; || &nbsp; || &nbsp;
+| FireBlastCalc ||  ||  || true ||  ||  ||  ||  ||  ||  ||  || 
 |- style="background-color:#ddffdd;"
-| IgnoreOverKill || &nbsp; || true || true || true || true || true || true || true || true || true || true
+| IgnoreOverKill ||  || true || true || true || true || true || true || true || true || true || true
 |- style="background-color:#ddffdd;"
-| IgnoreSelfDestruct || &nbsp; || &nbsp; || true || true || &nbsp; || &nbsp; || true || true || &nbsp; || &nbsp; || &nbsp;
+| IgnoreSelfDestruct ||  ||  || true || true ||  ||  || true || true ||  ||  || 
 |- style="background-color:#ddffdd;"
-| IgnorePainImmunity || &nbsp; || &nbsp; || &nbsp; || &nbsp; || &nbsp; || &nbsp; || true || &nbsp; || &nbsp; || &nbsp; || &nbsp;
+| IgnorePainImmunity ||  ||  ||  ||  ||  ||  || true ||  ||  ||  || 
 |- style="background-color:#ddffdd;"
-| IgnoreDirection || &nbsp; || &nbsp; || true || &nbsp; || &nbsp; || &nbsp; || &nbsp; || &nbsp; || &nbsp; || true || &nbsp;
+| IgnoreDirection ||  ||  || true ||  ||  ||  ||  ||  ||  || true || 
 |- style="background-color:#ddffdd;"
-| FixRadius || &nbsp; || &nbsp; || -1 || -1 || &nbsp; || &nbsp; || -1 || &nbsp; || &nbsp; || -1 || &nbsp;
+| FixRadius ||  ||  || -1 || -1 ||  ||  || -1 ||  ||  || -1 || 
 |- style="background-color:#ddffdd;"
-| RadiusEffectiveness || &nbsp; || &nbsp; || 0.03 || 0.05 || &nbsp; || &nbsp; || 0.05 || &nbsp; || &nbsp; || 0.05 || &nbsp;
+| RadiusEffectiveness ||  ||  || 0.03 || 0.05 ||  ||  || 0.05 ||  ||  || 0.05 || 
 |- style="background-color:#ddffdd;"
-| ArmorEffectiveness || &nbsp; || &nbsp; || 0.0 || &nbsp; || &nbsp; || &nbsp; || &nbsp; || &nbsp; || &nbsp; || 0.0 || &nbsp;
+| ArmorEffectiveness ||  ||  || 0.0 ||  ||  ||  ||  ||  ||  || 0.0 || 
 |- style="background-color:#ddffdd;"
-| FireThreshold || &nbsp; || &nbsp; || 0 || &nbsp; || &nbsp; || &nbsp; || &nbsp; || &nbsp; || &nbsp; || &nbsp; || &nbsp;
+| FireThreshold ||  ||  || 0 ||  ||  ||  ||  ||  ||  ||  || 
 |- style="background-color:#ddffdd;"
-| SmokeThreshold || &nbsp; || &nbsp; || &nbsp; || &nbsp; || &nbsp; || &nbsp; || &nbsp; || &nbsp; || &nbsp; || 0 || &nbsp;
+| SmokeThreshold ||  ||  ||  ||  ||  ||  ||  ||  ||  || 0 || 
 |- style="background-color:#ddffdd;"
-| ToHealth || &nbsp; || &nbsp; || 1.0 || &nbsp; || &nbsp; || &nbsp; || 0.0 || &nbsp; || &nbsp; || 0.0 || &nbsp;
+| ToHealth ||  ||  || 1.0 ||  ||  ||  || 0.0 ||  ||  || 0.0 || 
 |- style="background-color:#ddffdd;"
-| ToArmor || &nbsp; || &nbsp; || 0.0 || &nbsp; || &nbsp; || &nbsp; || 0.0 || &nbsp; || &nbsp; || 0.0 || &nbsp;
+| ToArmor ||  ||  || 0.0 ||  ||  ||  || 0.0 ||  ||  || 0.0 || 
 |- style="background-color:#ddffdd;"
-| ToWound || &nbsp; || &nbsp; || 0.0 || &nbsp; || &nbsp; || &nbsp; || 0.0 || &nbsp; || &nbsp; || 0.0 || &nbsp;
+| ToWound ||  ||  || 0.0 ||  ||  ||  || 0.0 ||  ||  || 0.0 || 
 |- style="background-color:#ddffdd;"
-| ToItem || &nbsp; || &nbsp; || 0.0 || 1.0 || &nbsp; || &nbsp; || 0.0 || &nbsp; || &nbsp; || 0.0 || &nbsp;
+| ToItem ||  ||  || 0.0 || 1.0 ||  ||  || 0.0 ||  ||  || 0.0 || 
 |- style="background-color:#ddffdd;"
-| ToTile || &nbsp; || &nbsp; || 0.0 || &nbsp; || &nbsp; || &nbsp; || 0.0 || &nbsp; || &nbsp; || 0.0 || &nbsp;
+| ToTile ||  ||  || 0.0 ||  ||  ||  || 0.0 ||  ||  || 0.0 || 
 |- style="background-color:#ddffdd;"
-| ToStun || &nbsp; || &nbsp; || 0.0 || &nbsp; || &nbsp; || &nbsp; || 1.0 || &nbsp; || &nbsp; || 1.0 || &nbsp;
+| ToStun ||  ||  || 0.0 ||  ||  ||  || 1.0 ||  ||  || 1.0 || 
 |- style="background-color:#ddffdd;"
-| RandomStun || &nbsp; || &nbsp; || &nbsp; || &nbsp; || &nbsp; || &nbsp; || false || &nbsp; || &nbsp; || &nbsp; || &nbsp;
+| RandomStun ||  ||  ||  ||  ||  ||  || false ||  ||  ||  || 
 |- style="background-color:#ddffdd;"
-| TileDamageMethod || &nbsp; || &nbsp; || 2 || 2 || &nbsp; || &nbsp; || 2 || &nbsp; || &nbsp; || 2 || &nbsp;
+| TileDamageMethod ||  ||  || 2 || 2 ||  ||  || 2 ||  ||  || 2 || 
 |}
 
 === UFOs ===
@@ -3231,7 +3175,6 @@ More info: https://openxcom.org/forum/index.php/topic,6668.0.html
 
 You can use this to make the same type of UFO have different [[#UFO Stats|stats]] depending on the alien race.
 
-```yaml
   - type: STR_TERROR_SHIP
     raceBonus:
       STR_MUTON:
@@ -3241,7 +3184,6 @@ You can use this to make the same type of UFO have different [[#UFO Stats|stats]
       STR_ETHEREAL:
         missionCustomDeploy: STR_END_OF_THE_WORLD
 
-```
 | -
 |- style="background-color:#ddffdd;"
 | '''instaHyper'''
@@ -3253,7 +3195,7 @@ You can use this to make the same type of UFO have different [[#UFO Stats|stats]
 
 The following attributes define so called "ufo stats". They are listed in a separate table, just for convenience... but are still part of the UFO ruleset.
 
-'''Note:''' In OXCE, all these stats are dynamic, i.e. can depend on the alien race piloting the UFOs.
+<span style="background:#ddffdd;">'''Note:''' In OXCE, all these stats are dynamic, i.e. can depend on the alien race piloting the UFOs.</span>
 
 {| class="wikitable" width="100%"
 ! width="150"| Value
@@ -3352,7 +3294,7 @@ Defines one of the sections of the [[Inventory TU Table|Battlescape inventory]] 
 | 0
 |-
 | '''slots'''
-| List of the grid slots (''[x,y]'') that this section is composed of. For example, to make a 2x2 section, you would have ''[0,0] [0,1] [1,0] [1,1]''.
+| List of the grid slots (''[x, y]'') that this section is composed of. For example, to make a 2x2 section, you would have ''[0, 0] [0, 1] [1, 0] [1, 1]''.
 | -
 |-
 | '''costs'''
@@ -3389,15 +3331,15 @@ Note: does not apply to '''mapDataSets''' or anything else
 |-
 | '''civilianTypes'''
 | List of units to use as civilians for this mission.
-| [MALE_CIVILIAN,FEMALE_CIVILIAN]
+| [MALE_CIVILIAN, FEMALE_CIVILIAN]
 |-
 | '''music'''
 | The list of musics this terrain can choose from (unless overridden by alienDeployment).
 | -
 |-
 | '''depth'''
-| Minimum and maximum possible depth, format is [minDepth,maxDepth]. Sets the battlescape depth (randomly, unless overridden by alienDeployment).
-| [0,0]
+| Minimum and maximum possible depth, format is [minDepth, maxDepth]. Sets the battlescape depth (randomly, unless overridden by alienDeployment).
+| [0, 0]
 |-
 | '''ambience'''
 | The ambient sound effect. Sound ID from [[#Extra_Sounds|BATTLE.CAT]].
@@ -3415,7 +3357,7 @@ Note: does not apply to '''mapDataSets''' or anything else
 | The delay between random ambient sound effects in seconds. Chosen randomly between the defined min and max (after each sound played).
 
 Note: the time passes only when the game is not "busy" (= when you see the map tiles animate). When the tiles don't animate, the timer for ambient sounds doesn't tick.
-| [20,60]
+| [20, 60]
 |-
 | '''script'''
 | The map generation script name.
@@ -3446,13 +3388,13 @@ Note: if enviro effects are defined both on terrain and on alien deployment, the
 | '''width'''
 | Width of this map block in Battlescape grid units.
 
-Note: in '''MapView''' tool (tested on version 1.6.0.0), this is called ''length''. MapView's dimensions [w,l,h] correspond to OpenXcom's dimensions [l,w,h].
+Note: in '''MapView''' tool (tested on version 1.6.0.0), this is called ''length''. MapView's dimensions [w, l, h] correspond to OpenXcom's dimensions [l,w,h].
 | 10
 |-
 | '''length'''
 | Length of this map block in Battlescape grid units.
 
-Note: in '''MapView''' tool (tested on version 1.6.0.0), this is called ''width''. MapView's dimensions [w,l,h] correspond to OpenXcom's dimensions [l,w,h].
+Note: in '''MapView''' tool (tested on version 1.6.0.0), this is called ''width''. MapView's dimensions [w, l, h] correspond to OpenXcom's dimensions [l,w,h].
 | 10
 |-
 | '''height'''
@@ -3472,7 +3414,7 @@ Hint: all maps with an XCOM/Alien craft require at least one map block assigned 
 | 0
 |-
 |'''revealedFloors'''
-| Map block floor to be revealed from the very beginning; use a list "[0,1,..]" to reveal multiple floors
+| Map block floor to be revealed from the very beginning; use a list "[0, 1, ..]" to reveal multiple floors
 | -
 |-
 | '''items'''
@@ -3484,7 +3426,6 @@ Hint: all maps with an XCOM/Alien craft require at least one map block assigned 
 
 Example:
 
-```yaml
   items:
     STR_ELERIUM:
       - [0, 0, 0]
@@ -3494,7 +3435,6 @@ Example:
   fuseTimers:
     STR_TIMEBOMB: [0, 30]
 
-```
 In this example 3 items are placed on the map block: 1 Elerium item and 2 Timebomb items. Both Timebomb items will be pre-primed with a random delay between 0 and 30 (each item will have a different delay). Elerium item will not be pre-primed :)
 | -
 |- style="background-color:#ddffdd;"
@@ -3503,7 +3443,6 @@ In this example 3 items are placed on the map block: 1 Elerium item and 2 Timebo
 
 Example:
 
-```yaml
   randomizedItems:
     - position: [12, 15, 2]
       amount: 3
@@ -3512,9 +3451,8 @@ Example:
       fuseTimerMin: 0  # default is -1 = not used
       fuseTimerMax: 0  # default is -1 = not used
 
-```
 In this example:
-* 3 items will be placed on the tile at coordinates [x,y,z] = [12,15,2]
+* 3 items will be placed on the tile at coordinates [x,y,z] = [12, 15, 2]
 * all 3 items can be different (''mixed: true''); if you wanted 3 items of the same type use ''mixed: false''
 * items are selected from the ''itemList'' randomly; to increase odds for a certain item type, you can add it to the list multiple times
 ** in our example STR_ITEM_1 has 25% chance, STR_ITEM_2 also 25% chance and STR_ITEM_3 a 50% chance
@@ -3525,14 +3463,11 @@ In this example:
 
 Example:
 
-```yaml
   extendedItems:
     - type: STR_RIFLE
       pos:
         - [6, 2, 0]
-      ammoDef: [ [STR_RIFLE_CLIP, 0] ]  # list of loaded ammo with quantity
-                  # (quantity 0 = maximum), example:
-                  # [[type1, qty1],[type2, qty2],[type3, qty3],[type4, qty4]]
+      ammoDef: [ [STR_RIFLE_CLIP, 0] ]  # list of loaded ammo with quantity (quantity 0 = maximum), example: [[type1, qty1],[type2, qty2],[type3, qty3],[type4, qty4]]
     - type: STR_GRENADE
       pos:
         - [7, 2, 0]
@@ -3540,11 +3475,10 @@ Example:
       fuseTimerMin: 0  # default is -1 = not used
       fuseTimerMax: 0  # default is -1 = not used
 
-```
 | -
 |- style="background-color:#ddffdd;"
 | '''craftInventoryTile'''
-| Coordinates [x,y,z] of the "craft" inventory tile (weapon's pile) in the terrain map block.
+| Coordinates [x, y, z] of the "craft" inventory tile (weapon's pile) in the terrain map block.
 
 More info: https://openxcom.org/forum/index.php?topic=12597.msg171356#msg171356
 | -
@@ -3552,14 +3486,14 @@ More info: https://openxcom.org/forum/index.php?topic=12597.msg171356#msg171356
 
 ==== MCD Patches ====
 
-
+<div style="background:#ffdddd;">
 '''DISCLAIMER'''
 
 MCD Patches are '''NOT''' meant for mods and modders!
 * they don't offer any advantages over direct MCD manipulation; but suffer several disadvantages
 
 '''Recommendation from OXC and OXCE devs:''' Modders should modify MCD files directly.
-
+</div>
 
 Redefines specific values of MCD files (including tile armor, HEBlock, TUWalk, etc.). The numbers after the #-symbol are representive to the offsets of the [[MCD|MCD files]]
 
@@ -3637,17 +3571,17 @@ Redefines specific values of MCD files (including tile armor, HEBlock, TUWalk, e
 | -
 |}
 
-
+<div style="background:#ffdddd;">
 '''DISCLAIMER'''
 
 MCD Patches are '''NOT''' meant for mods and modders!
 * they don't offer any advantages over direct MCD manipulation; but suffer several disadvantages
 
 '''Recommendation from OXC and OXCE devs:''' Modders should modify MCD files directly.
+</div>
 
 Example:
 
-```yaml
   MCDPatches:
     - type: BARN: # /UFO/TERRAIN/BARN.MCD
       data:
@@ -3655,7 +3589,6 @@ Example:
         armor: 255 # make tile nearly indestructible 
         HEBlock: 200 # may block blaster bombs
 
-```
 === Map Scripts ===
 Defines how the battlescape maps are generated from the available map blocks, listed in "mapScripts:".
 
@@ -3695,7 +3628,7 @@ Defines how the battlescape maps are generated from the available map blocks, li
 |-
 | '''rects'''
 | A list of possible areas on the map where (random) placement/checks/removal can happen. If not specified, entire map is considered.
-Each item in the list is a group of four integers [x,y,width,length].
+Each item in the list is a group of four integers [x, y, width, length].
 | -
 |-
 | '''label'''
@@ -3703,15 +3636,15 @@ Each item in the list is a group of four integers [x,y,width,length].
 | 0
 |-
 | '''conditionals'''
-| Defines the pre-conditions for the execution of this command. For example [1,-4] means it will be executed if command with '''label''' 1 was a success and command with '''label''' 4 failed.
+| Defines the pre-conditions for the execution of this command. For example [1, -4] means it will be executed if command with '''label''' 1 was a success and command with '''label''' 4 failed.
 Note: commands that are not yet executed are always in failed state.
 | 0
 |-
 | '''size'''
-| Size of map blocks that can be placed/checked/removed within '''rects'''. Only width (sizeX) and length (sizeY) are relevant. Can be specified as a single value, which is then used as both width and length; or as group of up to three values [x,y,z].
+| Size of map blocks that can be placed/checked/removed within '''rects'''. Only width (sizeX) and length (sizeY) are relevant. Can be specified as a single value, which is then used as both width and length; or as group of up to three values [x, y, z].
 
 Also used for resize command type, which can use also the height value (sizeZ).
-| [1,1,0]
+| [1, 1, 0]
 |- style="background-color:#ddffdd;"
 | '''markAsReinforcementsBlock'''
 | Marks blocks placed during this command as relevant for in-battle alien/civilian '''reinforcements'''.
@@ -3915,7 +3848,7 @@ Note: Explodes on Death refers to when the unit is collapsing. This can be eithe
 | '''specialWeapon'''
 | Alternative method of defining a melee/psi weapon for aliens (and civilians); instead of defining it on the unit itself.
 
-Note: in OXCE, this can be used also for Soldiers. It can be any type of weapon (not only melee/psi) and does not block the inventory. Instead it is accessed via a special icon.
+<span style="background:#ddffdd;">Note: in OXCE, this can be used also for Soldiers. It can be any type of weapon (not only melee/psi) and does not block the inventory. Instead it is accessed via a special icon.</span>
 | -
 |- style="background-color:#ddffdd;"
 | '''builtInWeapons'''
@@ -3987,7 +3920,6 @@ it also defines the body of a tank (32-images) in your spriteSheet or the change
 |- style="background-color:#ddffdd;"
 | '''moveCost'''
 | Detailed configs for custom move costs. Defaults:
-```yaml
     moveCost:
       #first level of multipliers
       basePercent: [100, 100] #overall move cost
@@ -4000,21 +3932,17 @@ it also defines the body of a tank (32-images) in your spriteSheet or the change
       #third level of multipliers
       walkPercent: [100, 50] #cost of normal move type
       runPercent: [75, 75] #cost of run aka with `ctrl`
-      strafePercent: [100, 50]  #cost of strafe when `ctrl`
-                                # and only one tile aside
-      sneakPercent: [100, 50] #cost move type with `alt`,
-                              # force unit to move on ground
+      strafePercent: [100, 50] #cost of strafe when `ctrl` and only one tile aside
+      sneakPercent: [100, 50] #cost move type with `alt`, force unit to move on ground
     
       flyWalkPercent: [100, 50] #cost of normal move type in air
       flyRunPercent: [75, 75] #cost of run aka with `ctrl` in air
-      flyStrafePercent: [100, 50] #cost of strafe when `ctrl`
-                                  # and only one tile aside in air
+      flyStrafePercent: [100, 50] #cost of strafe when `ctrl` and only one tile aside in air
       flyUpPercent: [100, 0] #cost of flying up
       flyDownPercent: [100, 0] #cost of flying down
       climbUpPercent: [100, 50] #cost of climbing up
       climbDownPercent: [100, 50] #cost of climbing down
       gravLiftPercent: [100, 0] #cost for using gravLift
-```
 |
 |- style="background-color:#ddffdd;"
 | '''turnBeforeFirstStep'''
@@ -4137,7 +4065,8 @@ More info: https://openxcom.org/forum/index.php/topic,7816.msg132821.html#msg132
 * Melee 
 * Acid 
 * Smoke
-In OXCE, there are 10 additional (nameless) damage types, which you can name and use for any purpose you like (e.g. create Electric damage, Freeze damage, EMP damage or whatever). You are also not forced to specify all 20 values if you are using less. If you for example only use 2 additional damage types, it is enough to specify only 12 (10 vanilla + 2 additional).
+<div style="background:#ddffdd;">In OXCE, there are 10 additional (nameless) damage types, which you can name and use for any purpose you like (e.g. create Electric damage, Freeze damage, EMP damage or whatever). You are also not forced to specify all 20 values if you are using less. If you for example only use 2 additional damage types, it is enough to specify only 12 (10 vanilla + 2 additional).
+</div>
 | 
 - 1.0<br>
 - 1.0<br>
@@ -4153,7 +4082,7 @@ In OXCE, there are 10 additional (nameless) damage types, which you can name and
 | '''loftempsSet'''
 | List of [[LOFTEMPS]] IDs (1 for 1x1 units, 4 for 2x2 units) used to represent a unit wearing this armor in 3D voxel space.
 
-Notes: Because of bug in unit voxel logic for 2x2 units only '''[92,89,90,91]''' is correctly handled
+Notes: Because of bug in unit voxel logic for 2x2 units only '''[ 92, 89, 90, 91 ]''' is correctly handled
 | -
 |- style="color:#666666;"
 | '''loftemps'''
@@ -4207,13 +4136,13 @@ Doesn't have any suggested use, feel free to use it to recolor anything you want
 | New color index (0-255) for "face pixels". List of 8 values corresponding to the following avatars:
 * Male Blond, Female Blond, Male Brown, Female Brown, Male Asian, Female Asian, Male African, Female African
 Aliens and civilians use random value from this list. Value 0 means "no change".
-Example: [96,96,96,96,160,160,163,163]
+Example: [96, 96, 96, 96, 160, 160, 163, 163]
 | -
 |-
 | '''spriteHairColor'''
 | New color index (0-255) for "hair pixels". List of 8 values corresponding to the same avatars as above.
 Aliens and civilians use random value from this list. Value 0 means "no change".
-Example: [144,144,164,164,245,245,166,166]
+Example: [144, 144, 164, 164, 245, 245, 166, 166]
 | -
 |-
 | '''spriteUtileColor'''
@@ -4236,7 +4165,7 @@ Value 0 means "no change".
 | -
 |- style="background-color:#ddffdd;"
 | '''customArmorPreviewIndex'''
-| Allows to have different icons for different types of armor on the [[Craft Info]] screen. Defined either as a single index into the '''CustomArmorPreviews''' spritesheet, or as a list of indices (for bigger icons).
+| Allows to have different icons for different types of armor on the [Craft Info] screen. Defined either as a single index into the '''CustomArmorPreviews''' spritesheet, or as a list of indices (for bigger icons).
 | 0
 |- style="background-color:#ddffdd;"
 | '''allowsRunning'''
@@ -4328,14 +4257,12 @@ Note: The full penalty applies from behind, from sides the penalty is adjusted a
 | '''ai.targetWeightAsHostile'''<br/>'''ai.targetWeightAsHostileCivilians'''<br/>'''ai.targetWeightAsFriendly'''<br/>'''ai.targetWeightAsNeutral'''
 | More info: https://openxcom.org/forum/index.php?topic=6586.msg171202#msg171202
 
-```yaml
   ai:
     targetWeightAsHostile: ~ # use global value
     targetWeightAsHostileCivilians: 50
     targetWeightAsFriendly: ~ # use global value
     targetWeightAsNeutral: -100
 
-```
 | ~<br/>~<br/>~<br/>~
 |}
 
@@ -4381,9 +4308,8 @@ Note: this and all attributes below are defined under parent attribute '''recove
 | 0
 |}
 
-Easiest way to explain how the formulaes are defined is using examples:
+<div style="background:#ddffdd;">Easiest way to explain how the formulaes are defined is using examples:
 
-```yaml
   armors:
     - type: STR_TEST_ARMOR_1
       meleeDodge:
@@ -4396,7 +4322,6 @@ Easiest way to explain how the formulaes are defined is using examples:
           flatHundred: 0.1           # 10% of 100 = 10 :)
           healthCurrent: 0.25        # 25% of current health
 
-```
 Armor 1 has melee dodge equal to 20% of soldier's reactions stat.
 
 Armor 2 has negative HP recovery of 10% of soldier's normalized stun level (simulating slowly losing HP when in shock); and positive energy recovery of 10 + 25% of soldier's current health.
@@ -4415,6 +4340,7 @@ Possible keywords to use in the formulaes include:
 * energyRegen
 
 '''FIXME''': describe what each keyword means
+</div>
 
 === Player Units (Soldiers) ===
 
@@ -4481,14 +4407,12 @@ Note: since OXCE v7.2, it can also be used to disable psi-training: https://open
 | '''dogfightExperience'''
 | A list of probabilities (0-100%) to improve a stat (only bravery, firing or reactions) after a successful Dogfight.
 
-```yaml
   - type: STR_SOLDIER
     dogfightExperience:
       bravery: 20   # 20% chance of improvement by 10
       reactions: 50 # 50% chance to improve by 1
       firing: 100   # guaranteed to improve by 1
 
-```
 | -
 |-
 | '''armor'''
@@ -4682,7 +4606,7 @@ More info: https://openxcom.org/forum/index.php?topic=12431.0
 
 === Soldier Transformation ===
 
-Defines rules for soldier transformations, listed in ''"soldierTransformation:"''.
+<div style="background:#ddffdd;">Defines rules for soldier transformations, listed in ''"soldierTransformation:"''.
 
 Allows doing things like:
 * transforming soldiers into MECs
@@ -4691,6 +4615,7 @@ Allows doing things like:
 * and much more...
 
 '''More info''': https://openxcom.org/forum/index.php/topic,6331.0.html
+</div>
 
 {| class="wikitable" width="100%"
 ! width="150"| Value
@@ -4888,11 +4813,13 @@ Note: stats gained by "classic" transformations (i.e. those that are NOT bonuses
 
 === Soldier Bonuses ===
 
+<div style="background:#ddffdd;">
 Defines rules for soldier bonuses, listed in ''"soldierBonuses:"''.
 
 Bonuses can be manually awarded by the player via '''soldier transformations'''; or automatically awarded together with a '''soldier commendations/medals'''.
 
 '''More info''': https://openxcom.org/forum/index.php/topic,7405.0.html
+</div>
 
 {| class="wikitable" width="100%"
 ! width="150"| Value
@@ -4954,9 +4881,11 @@ Bonuses can be manually awarded by the player via '''soldier transformations''';
 
 === Soldier Skillls ===
 
+<div style="background:#ddffdd;">
 Defines rules for soldier skills, listed in ''"skills:"''.
 
 '''More info''': https://openxcom.org/forum/index.php/topic,7974.0.html
+</div>
 
 {| class="wikitable" width="100%"
 ! width="150"| Value
@@ -5077,41 +5006,30 @@ Ninth corresponds to 2 gold stars.
 Tenth corresponds to 3 gold stars.
 
 Example: This criteria has 3 decoration levels: 1 bronze star, 2 silver stars, 3 gold stars. 
-```yaml
     criteria:
         totalAllAliensKilled: [1, 1, 2, 2, 2, 2, 3, 3, 3, 3]
-```
 | -
 |- 
 | '''killCriteria'''
 | This is the extra detail required by killsWithCriteriaCareer, killsWithCriteriaMission, or killsWithCriteriaTurn. The valid details are listed in the table under ''Kill Criteria''.
 
 Example: This killCriteria can be awarded for two reasons: if the soldier kills one sectopod terrorist with a grenade OR if the soldier kills one cyberdisc terrorist with a grenade.
-```yaml
     killCriteria:
         -
-            1: ["STR_SECTOPOD_TERRORIST", "STR_LIVE_TERRORIST",
-                  "STATUS_DEAD", "BT_GRENADE"]
+            1: ["STR_SECTOPOD_TERRORIST", "STR_LIVE_TERRORIST", "STATUS_DEAD", "BT_GRENADE"]
         - 
-            1: ["STR_CYBERDISC_TERRORIST", "STR_LIVE_TERRORIST",
-                  "STATUS_DEAD", "BT_GRENADE"]
+            1: ["STR_CYBERDISC_TERRORIST", "STR_LIVE_TERRORIST", "STATUS_DEAD", "BT_GRENADE"]
 
-```
 Example: This killCriteria is awarded for one reason: if the soldier has killed one hostile cyberdisc terrorist AND if the soldier has killed one hostile reaper terrorist.
-```yaml
     killCriteria:
         -
-            1: ["STR_CYBERDISC", "STR_LIVE_TERRORIST",
-                  "FACTION_HOSTILE", "STATUS_DEAD"]
-            1: ["STR_REAPER", "STR_LIVE_TERRORIST",
-                  "FACTION_HOSTILE", "STATUS_DEAD"]
-```
+            1: ["STR_CYBERDISC", "STR_LIVE_TERRORIST", "FACTION_HOSTILE", "STATUS_DEAD"]
+            1: ["STR_REAPER", "STR_LIVE_TERRORIST", "FACTION_HOSTILE", "STATUS_DEAD"]
 | -
 |- 
 |}
 
 Full example 1: 
-```yaml
   - type: STR_MEDAL_FLANKSHOT_NAME
     description: STR_MEDAL_FLANKSHOT_DESCRIPTION
     sprite: 43
@@ -5123,16 +5041,13 @@ Full example 1:
       -
         1: ["SIDE_RIGHT", "FACTION_HOSTILE", "STATUS_DEAD"]
 
-```
 Full example 2:
-```yaml
   - type: STR_MEDAL_MERCY_CROSS_NAME
     description: STR_MEDAL_MERCY_CROSS_DESCRIPTION
     sprite: 35
     criteria:
       totalAllAliensStunned: [1, 1, 2, 2, 2, 2, 3, 3, 3, 3]
 
-```
 ''Scalar Criteria'' depend only on one number, and are generally the number of times some specific event has occured in a soldier's career:
 
 {| class="wikitable" width="100%"
@@ -5385,6 +5300,7 @@ Example: If in a single mission the soldier healed wounds 3 times, applied stimu
 |-
 |}
 
+<div style="background:#ddffdd;">
 In OXCE, you can also use soldier commendations to assign soldier bonuses (see above).
 Bonuses are defined per decoration level.
 You don't need to define all decoration levels... if a soldier has a higher decoration level than defined, the highest available is used.
@@ -5393,20 +5309,18 @@ More info: https://openxcom.org/forum/index.php/topic,7405.msg116840.html#msg116
 
 Example:
 
-```yaml
   commendations:
     - type: STR_MEDAL_ALIENS_KILLED
       description: STR_MEDAL_ALIENS_KILLED_DESCRIPTION
       sprite: 1
-      soldierBonusTypes: [STR_KILL1, STR_KILL2, STR_KILL3, STR_KILL4]
-                      # various bonuses for various decoration levels
+      soldierBonusTypes: [STR_KILL1, STR_KILL2, STR_KILL3, STR_KILL4]           # various bonuses for various decoration levels
       criteria:
         killsWithCriteriaCareer: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
       killCriteria:
         -
           - [1, ["STATUS_DEAD", "FACTION_HOSTILE"]]
 
-```
+</div>
 [[Criteria and KillCriteria Details]]
 
 === AI Units (Aliens/Civilians) ===
@@ -5648,9 +5562,9 @@ Tip: set for example 50% for cannon fodder and 300% for VIPs.
 |-
 | '''aggroSound'''
 | Sound ID from [[#Extra_Sounds|BATTLE.CAT]] played when this unit aggros.
-
+<span style="background:#ddffdd;">
 In OXCE, a list of sound IDs can be used too, the game then chooses one randomly each time.
-
+</span>
 | -1
 |-
 | '''moveSound'''
@@ -5658,7 +5572,7 @@ In OXCE, a list of sound IDs can be used too, the game then chooses one randomly
 | -1
 |- style="background-color:#ddffdd;"
 | '''showFullNameInAlienInventory'''
-| Defines whether the [[Alien Inventory]] screen (accessible via middle-click on a unit) should display a unit's type/name or just a unit's race.
+| Defines whether the [Alien Inventory] screen (accessible via middle-click on a unit) should display a unit's type/name or just a unit's race.
 
 Possible options:
 * -1 = use global setting (show the race by default)
@@ -5728,7 +5642,7 @@ Example: Normal retaliation odds for Veteran difficulty (in UFO) are 12%. If thi
 | 0
 |- style="background-color:#ddffdd;"
 | '''baseCustomMission'''
-| String ID of an alien deployment ( '''not alien mission''' ! !) override for all alien bases inhabited by this alien race.
+| String ID of an alien deployment ('''not alien mission!!''') override for all alien bases inhabited by this alien race.
 
 Applies to:
 * all starting condition checks
@@ -5892,11 +5806,11 @@ More info: https://openxcom.org/forum/index.php/topic,6477.0.html
 | BACK03.SCR
 |- style="background-color:#ddffdd;"
 | '''alertDescription'''
-| String ID of the additional mission description (displayed when clicking on the [[Info]] button on the [[Target Info]] screen).
+| String ID of the additional mission description (displayed when clicking on the [Info] button on the [Target Info] screen).
 | -
 |- style="background-color:#ddffdd;"
 | '''alertSound'''
-| Sound ID from GEO.CAT to be played when the [[Mission Detected]] screen pops up.
+| Sound ID from GEO.CAT to be played when the [Mission Detected] screen pops up.
 | -1
 |-
 | '''briefing'''
@@ -5912,14 +5826,14 @@ More info: https://openxcom.org/forum/index.php/topic,6477.0.html
 | -1
 |-
 | '''depth'''
-| [''min'',''max''] -- Defines the depth range to randomly choose from for this mission.
-| [0,0]
+| [''min'', ''max''] -- Defines the depth range to randomly choose from for this mission.
+| [0, 0]
 |-
 | '''duration'''
-| [''min'',''max''] -- Minimum and maximum duration of this mission on the Geoscape (in hours).
+| [''min'', ''max''] -- Minimum and maximum duration of this mission on the Geoscape (in hours).
 
 '''Important''': mission duration should be at least 2 hours... if it's just 1 hour and it spawns at the whole hour, it also despawns at the same moment... and crashes the game!
-| [0,0]
+| [0, 0]
 |-
 | '''music'''
 | The list of musics this mission can choose from (if not specified, the music is taken from the terrain).
@@ -6078,11 +5992,11 @@ The following group of attributes is related to mission objectives (listed in a 
 |-
 | '''objectiveComplete'''
 | The string and score adjustment to be shown on the mission debriefing.
-| [-,0]
+| [-, 0]
 |-
 | '''objectiveFailed'''
 | The string and score adjustment to be shown on the mission debriefing.
-| [-,0]
+| [-, 0]
 |- style="background-color:#ddffdd;"
 | '''missionCompleteText'''
 | Custom mission successful debriefing title.
@@ -6115,7 +6029,7 @@ More info: https://openxcom.org/forum/index.php/topic,9051.0.html
 * 0 = Lose
 * 1 = Abort
 * 2 = Win
-* 3 = Win + all enemies surrender
+* <span style="background:#ddffdd;">3 = Win + all enemies surrender</span>
 | 0
 |-
 | '''escapeType'''
@@ -6147,7 +6061,7 @@ Notes:
 ** 0 (default) = forces a Loss, meaning that the player loses everything if the mission isn't completed by the time the turn limit is reached. All units are declared dead or MIA when the game ends. This is ideal for bomb defusal type missions.
 ** 1 = forces a Abort, this is almost the same as above, with the exception that there must be at least 1 soldier on an exit-only area (like the green room on the 1st stage of Cydonia) to win at the end of the turn limit. This setting is better used for multi-stage missions where you'll need to bring at least 1 soldier to the next stage.
 ** 2 = forces a Win, where if you have at least 1 live unit at the end of the turn limit you'll win the mission, regardless of where the soldiers are. This is meant for Survival scenarios.
-** 3 = forces a Win, same way as in option 2, but additionally all remaining enemies surrender.
+** <span style="background:#ddffdd;">3 = forces a Win, same way as in option 2, but additionally all remaining enemies surrender.</span>
 ** Regardless of the setting, the player can always still win by eliminating all alien units before the turn limit, or fail the mission by losing all units. 
 * cheatTurn allows to define the turn where the AI becomes aware of all your units (default is 20) for individual missions. Once this turn is reached the aliens will be forced to go into attack mode and engage your units. This is effectively a cheat for the AI which was present on the original game.
 
@@ -6193,9 +6107,13 @@ More info: https://openxcom.org/forum/index.php/topic,10304.0.html
 | '''percentageOutsideUfo'''
 | Percentage (0-100%) of aliens to spawn outside of the UFO (in UFO land/crash sites).
 
+<div style="background:#ddffdd;">
 Since OXCE 7.14, it can affect more deployments than just UFO landing/crash sites, see: '''forcePercentageOutsideUfo'''
+</div>
 
+<div style="background:#ddffdd;">
 For '''reinforcements''', this attribute is reused/misused to specify whether to spawn enemies (use value 0) or civilians (use any other value than 0).
+</div>
 | ''required''
 |-
 | '''itemSets'''
@@ -6257,8 +6175,9 @@ The following group of attributes is related to the ''"briefing:"'' section (use
 
 ==== Reinforcements Script ====
 
-The following group of attributes is related to the ''"reinforcements:"'' section (used, for instance, in ''"alienDeployments:"'').
+<div style="background:#ddffdd;">The following group of attributes is related to the ''"reinforcements:"'' section (used, for instance, in ''"alienDeployments:"'').
 Pay also attention to '''percentageOutsideUfo''' (see above [[#Deployment Data|Deployment Data]]).
+</div>
 {| class="wikitable" width="100%"
 ! width="150"| Value
 ! width="*"  | Description
@@ -6366,9 +6285,10 @@ Note: since OXCE v7.2, also turn 0 (zero) can be used. It spawns reinforcements 
 
 === Battle Starting Conditions ===
 
-Defines various pre-conditions and limitations applied before a certain Battlescape mission, listed in ''"startingConditions:"''.
+<div style="background:#ddffdd;">Defines various pre-conditions and limitations applied before a certain Battlescape mission, listed in ''"startingConditions:"''.
 
 Starting conditions can be defined on alien deployments only (not on terrains):
+</div>
 
 {| class="wikitable" width="100%"
 ! width="150"| Value
@@ -6434,9 +6354,10 @@ More info: https://openxcom.org/forum/index.php/topic,4444.msg148706.html#msg148
 
 === Battle Enviro Effects ===
 
-Defines various effects applied during a certain Battlescape mission, listed in ''"enviroEffects:"''.
+<div style="background:#ddffdd;">Defines various effects applied during a certain Battlescape mission, listed in ''"enviroEffects:"''.
 
 Enviro effects can be defined on alien deployments and on terrains. If both are defined, deployment's enviro effects will be used.
+</div>
 
 {| class="wikitable" width="100%"
 ! width="150"| Value
@@ -6454,7 +6375,7 @@ Enviro effects can be defined on alien deployments and on terrains. If both are 
 | '''environmentalConditions'''
 | A set of [[#Environmental Conditions|environmental conditions]] (one for each faction: STR_FRIENDLY, STR_HOSTILE or STR_NEUTRAL), see below. Environmental conditions define a special effect applied to each unit of a given faction at the beginning of their turn. This can be for example damage in toxic environment, stun in harsh environment, morale decrease in tough battles, etc.
 
-Note: the player is informed about the effects applied on the [[Next Turn]] screen.
+Note: the player is informed about the effects applied on the [Next Turn] screen.
 | -
 |- style="background-color:#ddffdd;"
 | '''armorTransformations'''
@@ -6504,7 +6425,7 @@ Note: if the armor is transformed, it is not checked if it is allowed or not and
 | 1000
 |- style="background-color:#ddffdd;"
 | '''message'''
-| String ID of the message displayed on the [[Next Turn]] screen, explaining to the player what is happening.
+| String ID of the message displayed on the [Next Turn] screen, explaining to the player what is happening.
 | -
 |- style="background-color:#ddffdd;"
 | '''color'''
@@ -6537,6 +6458,7 @@ Note: if the armor is transformed, it is not checked if it is allowed or not and
 | -1
 |}
 
+<div style="background:#ddffdd;">
 Note: there are limitations to what the effect can do, since we're not using a projectile and nobody is actually shooting
 * no power bonus based on shooting unit's stats (nobody is shooting, duh!)
 * no power range reduction (there is no projectile, range = 0)
@@ -6546,14 +6468,16 @@ Note: there are limitations to what the effect can do, since we're not using a p
 * no vanilla target morale loss when hurt; vanilla morale loss for fatal wounds still applies though
 * no setting target on fire (...could be added/implemented if needed)
 * no fire extinguisher
+</div>
 
 === Custom Palettes ===
 
-Defines custom 8bit palettes, listed in ''"customPalettes:"''.
+<div style="background:#ddffdd;">Defines custom 8bit palettes, listed in ''"customPalettes:"''.
 
 These palettes can:
 * either '''globally''' override the default game palettes
 * or serve as additional palettes used only in certain situations (see '''paletteTransformations''')
+</div>
 
 {| class="wikitable" width="100%"
 ! width="150"| Value
@@ -6797,7 +6721,7 @@ More info: https://openxcom.org/forum/index.php/topic,8615.msg132649.html#msg132
 
 ==== Manufacture Shortcuts ====
 
-Copies an existing manufacture project and allows break down of certain components into simpler components, listed in ''"manufactureShortcut:"''.
+<div style="background:#ddffdd;">Copies an existing manufacture project and allows break down of certain components into simpler components, listed in ''"manufactureShortcut:"''.</div>
 
 {| class="wikitable" width="100%"
 ! width="150"| Value
@@ -6861,10 +6785,10 @@ Defines an article in the in-game [[UFOpaedia]], listed in ''"ufopaedia:"''.
 * 15 = TFTD [[Armour (TFTD)|Armour]]
 * 16 = TFTD [[Base Facilities (TFTD)|Base Facilities]]
 * 17 = TFTD [[Alien Subs]]
-* 18 = Player Units (Soldiers), OXCE only: https://openxcom.org/forum/index.php?msg=174672
-* 19 = AI Units (Aliens/Civilians) and Player Units (HWPs and Summons), OXCE only: https://openxcom.org/forum/index.php?msg=174746
+* <span style="background:#ddffdd;">18 = Player Units (Soldiers), OXCE only: https://openxcom.org/forum/index.php?msg=174672</span>
+* <span style="background:#ddffdd;">19 = AI Units (Aliens/Civilians) and Player Units (HWPs and Summons), OXCE only: https://openxcom.org/forum/index.php?msg=174746</span>
 
-In OXCE, the TFTD-style articles can also be used in UFO-based mods.
+<span style="background:#ddffdd;">In OXCE, the TFTD-style articles can also be used in UFO-based mods.</span>
 | ''required''
 |-
 | '''section'''
@@ -6877,8 +6801,8 @@ In OXCE, the TFTD-style articles can also be used in UFO-based mods.
 |-
 | '''requires'''
 | List of [[#Research|topics]] (string IDs) that must be researched to unlock this article. If none are specified, this article is unlocked from the start.
-If using lootable weapons ('alien' weapons that can be used without research) needing a research to fully unlock, make sure to define it on both the weapon and ammo.
-Otherwise the damage reading is visible on the inventory screen using ''ALT'' on a clip.
+<span style="background:#ddffdd;">If using lootable weapons ('alien' weapons that can be used without research) needing a research to fully unlock, make sure to define it on both the weapon and ammo.
+Otherwise the damage reading is visible on the inventory screen using [ALT] on a clip. </span>
 | -
 |- style="background-color:#ddffdd;"
 | '''disabledBy'''
@@ -6888,15 +6812,16 @@ Otherwise the damage reading is visible on the inventory screen using ''ALT'' on
 | '''image_id'''
 | Filename of the [[UP001.SPK-UP042.SPK|background image]] displayed on this article, if applicable.
 
+<div style="background:#ddffdd;">
 In OXCE:
 * This attribute can be used also for ''Vehicle'' articles
-* If the name contains a '''"_CPAL" suffix''', its (custom) palette will be used instead of the default one. Relevant for ''Soldier types, Unit types, Craft, CraftWeapon, TextImage and Vehicle (HWP)'' articles. More info here: https://openxcom.org/forum/index.php/topic,4957.0.html
+* If the name contains a '''"_CPAL" suffix''', its (custom) palette will be used instead of the default one. Relevant for ''Soldier types, Unit types, Craft, CraftWeapon, TextImage and Vehicle (HWP)'' articles. More info here: https://openxcom.org/forum/index.php/topic,4957.0.html</div>
 | -
 |-
 | '''text'''
 | String ID of the description displayed on this article.
 
-In OXCE, you can use the {ALT} keyword to switch between primary and secondary color.
+<span style="background:#ddffdd;">In OXCE, you can use the {ALT} keyword to switch between primary and secondary color.</span>
 | -
 |- style="background-color:#ddffdd;"
 | '''align_bottom'''
@@ -6910,18 +6835,16 @@ In OXCE, you can use the {ALT} keyword to switch between primary and secondary c
 | '''rect_stats'''
 | Rectangle ('''x''', '''y''', '''width''', '''height''') of the stats text on the screen, only applicable to ''Craft'' articles.
 
-In OXCE, it is also applicable to ''Soldier types'' and ''Unit types'' articles.
+<span style="background:#ddffdd;">In OXCE, it is also applicable to ''Soldier types'' and ''Unit types'' articles.</span>
 
 Example:
 
-```yaml
  - id: STR_SKYRANGER
    rect_stats:
      x: 7
      y: 42
      width: 307
      height: 125
-```
 | -
 |- style="background-color:#ddffdd;"
 | '''rect_armor'''
@@ -6931,29 +6854,26 @@ More info: https://openxcom.org/forum/index.php?msg=174746
 
 Example:
 
-```yaml
  - id: STR_SECTOID_COMMANDER
    rect_armor:
      x: 180
      y: 48
-     width: 130   # 90+20+20 (don't forget there
-                  #   are other translations than
-                  #   just EN and RU)
+     width: 130   # 90+20+20 (don't forget there are other translations than just EN and RU)
      height: 40   # 5 rows
-```
 | -
 |-
 | '''rect_text'''
 | Rectangle ('''x''', '''y''', '''width''', '''height''') of the description text on the screen, only applicable to ''Craft'' articles. Defined in the same way as "rect_stats".
 
-In OXCE, it is also applicable to ''TextImage'', ''Soldier types'' and ''Unit types'' articles.
+<span style="background:#ddffdd;">In OXCE, it is also applicable to ''TextImage'', ''Soldier types'' and ''Unit types'' articles.</span>
 | -
 |-
 | '''weapon'''
 | String ID of the weapon, only applicable to ''Vehicle'' (HWP/SWS) articles.
 
+<div style="background:#ddffdd;">
 In OXCE:
-* This attribute can be used also for ''Equipment'' articles
+* This attribute can be used also for ''Equipment'' articles</div>
 | -
 
 |- style="background-color:#ddffdd;"
@@ -6984,20 +6904,17 @@ More info: https://openxcom.org/forum/index.php?msg=174746
 
 Example:
 
-```yaml
   - id: STR_PISTOL
     pages:
       - title: STR_PISTOL
         text: STR_PISTOL_UFOPEDIA
-        ammoSlot: 0   # default for all pages
+        ammoSlot: 0                  # default for all pages
       - title: STR_PISTOL
         text: STR_PISTOL_UFOPEDIA_2
-        ammoSlot: 1   # ammo and attack types relevant
-                      # for the second ammo slot (0 = first slot)
+        ammoSlot: 1                  # ammo and attack types relevant for the second ammo slot (0 = first slot)
       - title: STR_PISTOL_UFOPEDIA_TITLE_3
         text: STR_PISTOL_UFOPEDIA_3
         
-```
 | Only one page using standard '''title''' and '''text'''.
 |}
 
@@ -7019,7 +6936,7 @@ Defines a trajectory carried out by an UFO during an [[#Alien Missions|alien mis
 | 5
 |-
 | '''waypoints'''
-| List of items defining the waypoints and flight segments for the UFO to traverse, defined as ''[zone,altitude,speed]''.<br>
+| List of items defining the waypoints and flight segments for the UFO to traverse, defined as ''[zone, altitude, speed]''.<br>
 '''zone''': Regional missionZone index (used to randomly generate the waypoint's coordinates).<br>
 '''altitude''': UFO altitude:
 * 0 - Ground
@@ -7035,7 +6952,6 @@ Each trajectory has X flight segments and X+1 waypoints... please pause reading 
 
 The best explanation how the flight segments and waypoints are encoded in the ruleset is done via an example:
 
-```yaml
   waypoints:
     - [A, B, C]
     - [D, E, F]
@@ -7043,7 +6959,6 @@ The best explanation how the flight segments and waypoints are encoded in the ru
     - [J, K, L]
     - [M, N, P]
 
-```
 This example can be interpreted as:
 # go from zone A to zone D at altitude B and speed C
 # go from zone '''D to zone D''' at altitude E and speed F
@@ -7086,7 +7001,7 @@ Defines an [[Alien Missions|alien mission]] carried out by UFOs on the Geoscape,
 * 3 = mission site (terror etc)
 * 4 = retaliation
 * 5 = supply
-* 6 = instant xcom base defense: https://openxcom.org/forum/index.php/topic,10808.0.html
+* <span style="background:#ddffdd;">6 = instant xcom base defense:</span> https://openxcom.org/forum/index.php/topic,10808.0.html
 | 0
 |- style="background-color:#ddffdd;"
 | '''showAlienBase'''
@@ -7284,11 +7199,13 @@ Possible options:
 
 MissionScripts determines how many missions are spawned each month.
 
+<div style="background:#ddffdd;">
 Standard monthly mission scripts are defined under ''"missionScripts:"''.
 
 In OXCE, there are also adhoc mission scripts triggered by events any time during the month, those are defined under ''"adhocScripts:"''.
 
 More info: https://openxcom.org/forum/index.php?topic=12338.msg171478#msg171478
+</div>
 
 {| class="wikitable" width="100%"
 ! width="150"| Value
@@ -7312,7 +7229,7 @@ More info: https://openxcom.org/forum/index.php?topic=12338.msg171478#msg171478
 | 0
 |-
 | '''conditionals'''
-| Defines the conditions that allows the execution of this command. For example, [1,-4] means it will be executed if command with '''label''' 1 was a success and command with '''label 4''' failed.
+| Defines the conditions that allows the execution of this command. For example, [1, -4] means it will be executed if command with '''label''' 1 was a success and command with '''label 4''' failed.
 
 Commands that are not yet executed are always in failed state.
 | -
@@ -7458,9 +7375,11 @@ Relevant ruleset files for editing alien missions of "mission site" type (e.g. t
 
 === Arc Scripts ===
 
+<div style="background:#ddffdd;">
 ArcScripts determine high-level game progression. They are executed just before the monthly MissionScripts.
 
 Technically they are just "time-triggered research discoveries". More info: https://openxcom.org/forum/index.php/topic,7125.0.html
+</div>
 
 {| class="wikitable" width="100%"
 ! width="150"| Value
@@ -7567,18 +7486,22 @@ Several research triggers can be combined and all must be fulfilled.
 
 ==== Guidelines/Tips ====
 
+<div style="background:#ddffdd;">
 Possible usage, for inspiration:
 * Randomly give the player research A, B or C at the beginning - each research then unlocks specific tech at game start, giving the player different starting items/research for each new campaign
 * Randomly give the player (each month) one research topic D, E, F, etc. - each research then unlocks specific mission(s) for that month
 * Give tech G on month 0, tech H on month 1 and tech I on month 2 - for multi-mission story arcs spawning in sequence across several months
 * Give tech J and spawn corresponding mission, if mission is victory receive tech K, which then unlocks additional mission next month - for making missions dependent on the previous one
 * If research L is completed or if month X is achieved, give tech M at beginning of next month with the UFOPedia notification - this can be used to provide tips, tutorials, in-game message, whatever relevant info you want to give the player
+</div>
 
 === Event Scripts ===
 
+<div style="background:#ddffdd;">
 EventScripts determine when custom geoscape events occur. They are executed just after the monthly MissionScripts.
 
 More info: https://openxcom.org/forum/index.php/topic,7215.msg116753.html#msg116753
+</div>
 
 {| class="wikitable" width="100%"
 ! width="150"| Value
@@ -7697,9 +7620,11 @@ Several research triggers can be combined and all must be fulfilled.
 
 ==== Events ====
 
+<div style="background:#ddffdd;">
 Defines a Geoscape event that pops up, gives the player some background info and awards funds, score, items and/or research, listed in ''"events:"''.
 
 More info: https://openxcom.org/forum/index.php/topic,7215.msg116753.html#msg116753
+</div>
 
 {| class="wikitable" width="100%"
 ! width="150"| Value
@@ -7840,9 +7765,7 @@ Each line contains item set probabilities, with a number between 0 and 2 represe
 * 2 = third item set (e.g. heavy plasma/clip)
 
 For example:
-```yaml
   [ 2, 0, 0, 0, 0, 0, 0, 1, 1, 1 ]
-```
 would represent a 60% chance for pistols, 30% for rifles and 10% for heavy weapons.
 
 Note that the order does not matter, but the length DOES. Each line MUST have exactly 10 digits.
@@ -7910,7 +7833,6 @@ Adds or replaces sprites in an existing [[Image Formats|X-COM image file]], list
 |}
 
 Example:
-```yaml
  - type: GIANTBUNNY.PCK
    width: 32
    height: 40
@@ -7919,17 +7841,14 @@ Example:
      1: Resources/Bunny/Bunny01.bmp
      2: Resources/Bunny/Bunny02.gif
 
-```
 Another example: (takes advantage of the ability to drop numerous images into a single folder that will then behave like a spritesheet)
 
-```yaml
  - type: GIANTBUNNY.PCK
    width: 32
    height: 40
    files:
      0: Resources/Bunny/sprite/
 
-```
 Files within the specified folder should be numbered sequentially from the number defined above. "0" in this case.
 
 ==== Negative indices and cross-referencing other mods ====
@@ -7949,50 +7868,44 @@ If you were using these bigobs in your mod, you have 2 options how to fix it:
 # Option 1 (recommended): define/copy these bigobs in your mod as any other custom sprites, i.e. don't reuse the openxcom ones
 # Option 2: you can reuse the openxcom ones using a special syntax, which allows you to access objects from different mods, see example below
 
-```yaml
   items:
     - type: STR_MY_CUSTOM_SECTOPOD_WEAPON
       bigSprite: { mod: xcom1, index: 60 }
 
-```
 This example shows how to access sprite number 60 from xcom1 mod. There is also a special keyword '''master''', which allows you to access the master mod. The following example is equivalent to the previous example:
 
-```yaml
   items:
     - type: STR_MY_CUSTOM_SECTOPOD_WEAPON
       bigSprite: { mod: master, index: 60 }
 
-```
 '''Disclaimer:''' please be careful when addressing other mods than your own, the mod authors may decide to change their numbering at any time, rendering your references incorrect. Using this feature for anything else than addressing xcom1/xcom2 terror weapons is at your own risk.
 
 ==== Alternative for single sprites (OXCE only) ====
 
-Bigger mods can contain '''a lot''' of sprites.
+<div style="background:#ddffdd;">Bigger mods can contain '''a lot''' of sprites.
 
 To make the ruleset smaller and easier to read, you can use the following alternative way of defining single sprites.
 
 Standard method:
 
-```yaml
   - type: SpriteName
     singleImage: true
     files:
       0: Resources/MyImage.png 
 
-```
 Alternative method:
 
-```yaml
   - typeSingle: SpriteName
     fileSingle: Resources/MyImage.png 
 
-```
 Notice how only 2 lines are needed instead of 4; and the beginning of both values is nicely aligned.
+</div>
 
 ==== Reserved sprite/spritesheet names ====
 
 '''FIXME''': add info about reserved names in OpenXcom too.
 
+<div style="background:#ddffdd;">
 OXCE adds several new sprites and spritesheets with pre-defined names, that serve various purposes. Most of these sprites are "empty" by default and not used. But modders have the option to define these sprites and activate extra functionality behind them.
 
 Below is the list of new sprites and spritesheets ('''FIXME''': add description and links/examples):
@@ -8007,6 +7920,7 @@ Below is the list of new sprites and spritesheets ('''FIXME''': add description 
 ** BigStunIndicator, BigWoundIndicator, BigBurnIndicator, BigShockIndicator
 ** FloorStunIndicator, FloorWoundIndicator, FloorBurnIndicator, FloorShockIndicator
 ** Flag[X]
+</div>
 
 === Extra Sounds ===
 
@@ -8030,18 +7944,18 @@ Adds or replaces sounds in an existing [[SOUND|X-COM sound file]], listed in ''"
 |}
 
 Example:
-```yaml
  - type: BATTLE.CAT
    files:
      55: Resources/Sounds/sample.wav
 
-```
+<div style="background:#ffdddd;">
 '''When using .wav files, please pay attention to the file format!'''
 
 OpenXcom should work fine with:
 * uncompressed mono/stereo PCM
 * low bit depth (8bit or 16bit), '''16bit recommended''', 24bit is known to NOT work
 * low and standard sample rates (8-48 kHz), 22050 Hz or 44100 Hz recommended
+</div>
 
 === Music ===
 
@@ -8088,7 +8002,6 @@ Adds or replaces text strings in an existing [[Translations (OpenXcom)|OpenXcom 
 |}
 
 Example:
-```yaml
  - type: en-US
    strings:
      STR_SNIPER_RIFLE: Sniper Rifle
@@ -8106,7 +8019,6 @@ Example:
      STR_SNIPER_RIFLE: Снайперская винтовка
      STR_SNIPER_RIFLE_CLIP: Магазин к снайп. винтовке
 
-```
 '''Did you know?'''
 * Translations can also be provided in the same format as OpenXcom provides them for default languages (en-US and en-GB)
 * The advantage over using extraStrings is that the format can be used in Transifex, so that popular mods can be easily translated into many languages by many people in a more coordinated way
@@ -8173,11 +8085,11 @@ More info: https://openxcom.org/forum/index.php?topic=12711.0
 | ''required''
 |-
 | '''size'''
-| Some elements have configurable size. Defined as [width,height].
+| Some elements have configurable size. Defined as [width, height].
 | -
 |-
 | '''pos'''
-| Some elements have configurable position. Defined as [x,y], where x<320 and y<200.
+| Some elements have configurable position. Defined as [x, y], where x<320 and y<200.
 | -
 |-
 | '''color'''
@@ -8209,9 +8121,11 @@ Currently used only for inventory interface, specifies which stats are displayed
 
 [[Statstrings]] are used to automatically rename soldiers. They are case-sensitive and processed in the order in which they are specified. Processing is stopped either at the end of the list, or when a first rule with a name longer than 1 character (e.g. "Snpr") matches.
 
+<div style="background:#ddffdd;">
 Since OXCE v7.2, you can use also non-ASCII characters and they will be correctly counted as only 1 character.
 
 In OpenXcom, they will still count as multiple characters and will stop the processing (as described above).
+</div>
 
 {| class="wikitable" width="100%"
 ! width="150"| Value
@@ -8234,7 +8148,7 @@ In OpenXcom, they will still count as multiple characters and will stop the proc
 '''throwing'''
 | One or more stat ranges are AND-ed together to find a match.
 
-Each range has a format [min,max]. Use YAML standard tilde (~) to indicate empty value (interpreted as 0 for min and as 255 for max).
+Each range has a format [min, max]. Use YAML standard tilde (~) to indicate empty value (interpreted as 0 for min and as 255 for max).
 | -
 |-
 | '''melee'''<br>
@@ -8248,7 +8162,6 @@ Each range has a format [min,max]. Use YAML standard tilde (~) to indicate empty
 |}
 
 Example:
-```yaml
   statStrings:
   - string: "x"
     psiStrength: [~, 30]
@@ -8281,7 +8194,6 @@ Example:
   - string: "r"
     reactions: [50, 59]
 
-```
 === Cutscenes ===
 
 Defines a video playlist or a slideshow sequence, listed in ''"cutscenes:"''.
@@ -8361,11 +8273,11 @@ More info about multiple game endings: https://openxcom.org/forum/index.php/topi
 |-
 | '''captionSize'''
 | The size of the text box, in pixels, in which to display the caption.
-| [320,200]
+| [320, 200]
 |-
 | '''captionPos'''
 | The screen position at which to display the caption.
-| [0,0]
+| [0, 0]
 |-
 | '''captionColor'''
 | The palette index to use for the caption color.
@@ -8415,7 +8327,7 @@ More info: https://openxcom.org/forum/index.php/topic,7371.0.html
 |- style="background-color:#ddffdd;"
 | '''unitResponseSoundsFrequency'''
 | Sets the probabilities of unit response sounds being played (each time). First number is for "select unit" sound, second for "start moving" sound, third for "select weapon" sound and fourth for the "annoyed" sound.
-| [100,100,100,20]
+| [100, 100, 100, 20]
 |- style="background-color:#ddffdd;"
 | '''unitResponseSounds'''
 | Custom unit response sounds per individual soldier name... when soldier type/armor/gender is just not RPG enough :) Hardcore.
@@ -8424,7 +8336,6 @@ More info: https://openxcom.org/forum/index.php/topic,7371.0.html
 
 Syntax:
 
-```yaml
   unitResponseSounds:
     - name: Starving Poet
       selectUnitSound:   [200, 201, 202, 203, 204]
@@ -8436,7 +8347,6 @@ Syntax:
       startMovingSound:  [310, 311, 312, 313]
       selectWeaponSound: [320, 321, 322, 323]
       annoyedSound:      [330, 331, 332, 333, 334, 335]
-```
 | -
 |- style="background-color:#ddffdd;"
 | '''baseNamesFirst'''<br>
@@ -8444,7 +8354,6 @@ Syntax:
 '''baseNamesLast'''
 | Data for the random base name generator. '''baseNamesMiddle''' and '''baseNamesLast''' are optional. Example:
 
-```yaml
   baseNamesFirst:
     - Big
     - Huge
@@ -8458,14 +8367,12 @@ Syntax:
     - Port
     - Haven
     - Tavern
-```
 | -
 |- style="background-color:#ddffdd;"
 | '''operationNamesFirst'''<br>
 '''operationNamesLast'''
 | Data for the random operation name generator. '''operationNamesLast''' is optional. Example:
 
-```yaml
   operationNamesFirst:
     - Blind
     - Burning
@@ -8482,7 +8389,6 @@ Syntax:
     - Rain
     - Star
     - Thunder
-```
 | -
 |}
 
@@ -8496,7 +8402,6 @@ Syntax:
 | '''startingTime'''
 | Specifies the date and time at the beginning of the game.
 Example:
-```yaml
   startingTime:
     second: 0
     minute: 0
@@ -8505,7 +8410,6 @@ Example:
     day: 1
     month: 1
     year: 1999
-```
 | Friday 1.1.1999 12:00:00
 |-
 | '''initialFunding'''
@@ -8515,7 +8419,6 @@ Example:
 | '''monthlyRatings'''
 | A list of monthly ratings. Each item contains a minimum required score and a corresponding String ID of the rating. Example:
 
-```yaml
   monthlyRatings:
     5000: STR_MT_RATING_AMAZING
     2000: STR_MT_RATING_PERFECT
@@ -8526,7 +8429,6 @@ Example:
     -350: STR_MT_RATING_BAD
     -99999: STR_MT_RATING_TERRIBLE
 
-```
 | -
 |- style="background-color:#ddffdd;"
 | '''performanceBonusFactor'''
@@ -8582,20 +8484,10 @@ Note: since OXCE v7.15, the factor can be also a decimal number, not only an int
 | '''gameOver'''
 | A list of cutscene names for special events. More info: https://openxcom.org/forum/index.php/topic,7476.msg117830.html#msg117830
 
-```yaml
   gameOver:
-    # cutscene ID that should be played when
-    # the player loses due to poor economy management
-    loseMoney: loseGame
-  
-    # cutscene ID that should be played when
-    # the player loses due to poor rating
-    loseRating: loseGame
-  
-    # cutscene ID that should be played when
-    # the player loses the last base
-    loseDefeat: loseGame
-```
+    loseMoney: loseGame       # cutscene ID that should be played when the player loses due to poor economy management
+    loseRating: loseGame      # cutscene ID that should be played when the player loses due to poor rating
+    loseDefeat: loseGame      # cutscene ID that should be played when the player loses the last base
 | <=
 |}
 
@@ -8665,7 +8557,7 @@ More info: https://openxcom.org/forum/index.php/topic,10845.0.html
 | 30
 |- style="background-color:#ddffdd;"
 | '''shortRadarRange'''
-| The maximum radar range still considered as short (for [[Base Info]] screen purposes). If not specified (0), the smallest range from all radar facilities is used.
+| The maximum radar range still considered as short (for [Base Info] screen purposes). If not specified (0), the smallest range from all radar facilities is used.
 | 0
 |- style="background-color:#ddffdd;"
 | '''buildTimeReductionScaling'''
@@ -8688,16 +8580,14 @@ More info: https://openxcom.org/forum/index.php/topic,10845.0.html
 | false
 |- style="background-color:#ddffdd;"
 | '''maxLookVariant'''
-| The maximum supported lookVariant (0-63) used in [[Change Soldier Avatar]] dialog.
+| The maximum supported lookVariant (0-63) used in [Change Soldier Avatar] dialog.
 | 0
 |- style="background-color:#ddffdd;"
 | '''flagByKills'''
 | OXCE allows to display flags next to soldier names, based on their nationality (resp. based on the name pool from which their name was chosen). If this setting is used, the flag will depend on the number of kills from soldier's diary instead.
 
-```yaml
   flagByKills: [10,20,30]
 
-```
 Example above means:
 * 0-10 kills = Flag0 sprite is used
 * 11-20 = Flag1 sprite
@@ -8756,8 +8646,8 @@ More info: https://openxcom.org/forum/index.php/topic,10195.msg143054.html#msg14
 | 60
 |- style="background-color:#ddffdd;"
 | '''pilotBraveryThresholds'''
-| The pilot's bravery needed for ''[VeryBold,Bold,Normal]'' approach speed during dogfights. If neither is reached, approach speed is Cowardly.
-| [90,80,30]
+| The pilot's bravery needed for [Very Bold, Bold, Normal] approach speed during dogfights. If neither is reached, approach speed is Cowardly.
+| [90, 80, 30]
 |- style="background-color:#ddffdd;"
 | '''showDogfightDistanceInKm'''
 | Should the distance between the craft and a UFO be shown in kilometers (true) or in vanilla units (false)? Vanilla units equal to 8-times the distance in kilometers.
@@ -8774,21 +8664,14 @@ More info: https://openxcom.org/forum/index.php/topic,10195.msg143054.html#msg14
 | '''ufoTractorBeamSizeModifiers'''
 | The modifiers to a tractor beam's power based on a UFO's size.
 
-```yaml
   ufoTractorBeamSizeModifiers:
-    # very small, tractor beams are 400%
-    # or 4x as effective
-    - 400
+    - 400 # very small, tractor beams are 400% or 4x as effective
     - 200
     - 100
     - 50
-  
-    # very large, tractor beams are 25%
-    # or 1/4x as effective
-    - 25
+    - 25 # very large, tractor beams are 25% or 1/4x as effective
 
-```
-| [400,200,100,50,25]
+| [400, 200, 100, 50, 25]
 |- style="background-color:#ddffdd;"
 | '''hunterKillerFastRetarget'''
 | If enabled, the UFO hunter-killers can reconsider their target every 5 seconds on low game speeds (5sec/1min) and every 10 minutes on all other game speeds. If disabled, it is only every 10 minutes on all game speeds.
@@ -8853,8 +8736,8 @@ Hint: also check '''instaHyper''' UFO attribute.
 ! width="80" | Default
 |-
 | '''alienFuel'''
-| Name of an item representing alien fuel and a quantity to recover from a single fuel cell. Format: [name,quantity].
-| [-,-]
+| Name of an item representing alien fuel and a quantity to recover from a single fuel cell. Format: [name, quantity].
+| [-, -]
 |- style="background-color:#ddffdd;"
 | '''baseDefenseMapFromLocation'''
 | Whether or not to load additional base defense terrain from globe texture. 0 = no, 1 = yes.
@@ -8870,13 +8753,11 @@ More info: https://openxcom.org/forum/index.php/topic,5108.0.html
 
 Defaults:
 
-```yaml
   lighting:
     enhanced: 0
     maxStatic: 16   #Careful, affects overall game performance!
     maxDynamic: 24  #Careful, affects overall game performance!
 
-```
 | <=
 |- style="background-color:#ddffdd;"
 | '''maxViewDistance'''
@@ -8947,7 +8828,7 @@ More info: https://openxcom.org/forum/index.php/topic,4057.msg59352.html#msg5935
 | -
 |- style="background-color:#ddffdd;"
 | '''showFullNameInAlienInventory'''
-| A global default value for showing unit name (true) or unit race (false) in the [[Alien Inventory]] screen. Can be overridden per unit type.
+| A global default value for showing unit name (true) or unit race (false) in the [Alien Inventory] screen. Can be overridden per unit type.
 | false
 |- style="background-color:#ddffdd;"
 | '''destroyedFacility'''
@@ -8961,7 +8842,6 @@ More info: https://openxcom.org/forum/index.php/topic,4057.msg59352.html#msg5935
 | '''missionRatings'''
 | A list of mission ratings. Each item contains a minimum required mission score and a corresponding String ID of the rating. Example:
 
-```yaml
   missionRatings:
     2000: STR_MS_RATING_HOLY_COW
     1000: STR_MS_RATING_AMAZING
@@ -8976,7 +8856,6 @@ More info: https://openxcom.org/forum/index.php/topic,4057.msg59352.html#msg5935
     -1000: STR_MS_RATING_DISASTER
     -99999: STR_MS_RATING_EPIC_FAIL
 
-```
 | -
 |- style="background-color:#ddffdd;"
 | '''statisticalBulletConservation'''
@@ -9008,7 +8887,6 @@ More info: https://openxcom.org/forum/index.php/topic,7241.0.html
 
 Example:
 
-```yaml
   mana:
     enabled: false
     battleUI: false
@@ -9018,7 +8896,6 @@ Example:
     woundThreshold: 200             # default is 200
     replenishAfterMission: true
 
-```
 | see example
 |- style="background-color:#ddffdd;"
 | '''health'''
@@ -9028,12 +8905,10 @@ More info: https://openxcom.org/forum/index.php/topic,8020.0.html
 
 Example:
 
-```yaml
   health:
     woundThreshold: 100             # default is 100
     replenishAfterMission: true
 
-```
 | see example
 |}
 
@@ -9064,7 +8939,7 @@ Used to prevent AI making shots that are unlikely to hit, which only makes them 
 |-
 | '''turnAIUseBlaster'''
 | OXC: Defines a turn, from which the aliens are allowed to use any AoE weapons (blaster launcher, small launcher, etc.).
-OXCE: Defines a turn, from which the aliens are allowed to use waypoint-based weapons.
+<span style="background:#ddffdd;">OXCE: Defines a turn, from which the aliens are allowed to use waypoint-based weapons.</span>
 | 3
 |- style="background-color:#ddffdd;"
 | '''ai.useDelayBlaster'''
@@ -9096,7 +8971,6 @@ OXCE: Defines a turn, from which the aliens are allowed to use waypoint-based we
 
 Example:
 
-```yaml
   ai:
     useDelayBlaster: 3
     useDelayFirearm: 1
@@ -9104,7 +8978,6 @@ Example:
     useDelayMelee: 1
     useDelayPsionic: 2
 
-```
 | 0
 |- style="background-color:#ddffdd;"
 | '''ai.fireChoiceIntelCoeff'''<br/>'''ai.fireChoiceAggroCoeff'''
@@ -9126,7 +8999,6 @@ Example:
 | '''ai.targetWeightThreatThreshold'''<br/>'''ai.targetWeightAsHostile'''<br/>'''ai.targetWeightAsHostileCivilians'''<br/>'''ai.targetWeightAsFriendly'''<br/>'''ai.targetWeightAsNeutral'''
 | More info: https://openxcom.org/forum/index.php?topic=6586.msg171202#msg171202
 
-```yaml
   ai:
     targetWeightThreatThreshold: 50
     targetWeightAsHostile: 100
@@ -9134,7 +9006,6 @@ Example:
     targetWeightAsFriendly: -200
     targetWeightAsNeutral: -100
 
-```
 | 50<br/>100<br/>50<br/>-200<br/>-100
 |}
 
@@ -9206,7 +9077,7 @@ If there is still a unit that is not powerless, bug hunt won't be activated.
 
 Note: affects all difficulty levels, not just Superhuman difficulty.
 
-OXCE: number of additional units in reinforcement waves for '''dQty''' and '''extraQty''' is still random.
+<span style="background:#ddffdd;">OXCE: number of additional units in reinforcement waves for '''dQty''' and '''extraQty''' is still random.</span>
 | false
 |-
 | '''difficultyCoefficient'''
@@ -9225,7 +9096,7 @@ OXCE: number of additional units in reinforcement waves for '''dQty''' and '''ex
 * Together with '''statGrowthMultipliers''' affects how alien stats change with difficulty level | + (statGrowthMultipliers/100) * difficultyCoefficient
 * Does not affect aimAndArmorMultipliers, aimMultipliers and armorMultipliers.
 * OXCE: Does not affect statGrowthMultipliersAbs and armorMultipliersAbs.
-| [0,1,2,3,4]
+| [0, 1, 2, 3, 4]
 |- style="background-color:#ddffdd;"
 | '''difficultyCoefficientOverrides'''
 | Ability to override '''difficultyCoefficient''' effects:
@@ -9238,53 +9109,37 @@ OXCE: number of additional units in reinforcement waves for '''dQty''' and '''ex
 
 Example (with some vanilla values):
 
-```yaml
-  difficultyCoefficientOverrides:
-    # vanilla points; please note that
-    # only NEGATIVE numbers are accepted here
-    monthlyRatingThresholds: [-900, -800, -700, -600, -500]
-  
-    # percent of default... percentages
-    # instead of vanilla flat values
-    ufoFiringRateCoefficients: [100, 95, 90, 85, 80]
-  
-    # percent of default... percentages
-    # instead of vanilla flat values
-    ufoEscapeCountdownCoefficients: [100, 95, 90, 85, 80]
-  
-    # vanilla percentages
-    retaliationTriggerOdds: [4, 8, 12, 16, 20]
-  
-    # vanilla percentages
-    retaliationBaseRegionOdds: [50, 56, 62, 68, 74]
-  
-    # vanilla percentages
-    aliensFacingCraftOdds: [0, 20, 40, 60, 80]
+ difficultyCoefficientOverrides:
+   monthlyRatingThresholds: [-900, -800, -700, -600, -500]   # vanilla points; please note that only NEGATIVE numbers are accepted here
+   ufoFiringRateCoefficients: [100, 95, 90, 85, 80]          # percent of default... percentages instead of vanilla flat values
+   ufoEscapeCountdownCoefficients: [100, 95, 90, 85, 80]     # percent of default... percentages instead of vanilla flat values
+   retaliationTriggerOdds: [4, 8, 12, 16, 20]                # vanilla percentages
+   retaliationBaseRegionOdds: [50, 56, 62, 68, 74]           # vanilla percentages
+   aliensFacingCraftOdds: [0, 20, 40, 60, 80]                # vanilla percentages
 
-```
 | -
 |- style="background-color:#ddffdd;"
 | '''difficultyBasedRetaliationDelay'''
 | Defines a delay (in months, per difficulty level) for spawning retaliation missions after dogfights. If the campaign is still in the "protected period", retaliation missions won't spawn. This can be used to prevent unlucky base defense missions in early game for beginners.
 
 Note: does not affect regularly spawned retaliation missions (via monthly mission script), nor alien base gen/hunt missions.
-| [0,0,0,0,0]
+| [0, 0, 0, 0, 0]
 |-
 | '''aimAndArmorMultipliers'''
 | Affects armor values and firing accuracy of aliens for different difficulty levels.
-| [0.5,1.0,1.0,1.0,1.0]
+| [0.5, 1.0, 1.0, 1.0, 1.0]
 |- style="background-color:#ddffdd;"
 | '''aimMultipliers'''
 | Affects firing accuracy of aliens for different difficulty levels.
-| [0.5,1.0,1.0,1.0,1.0]
+| [0.5, 1.0, 1.0, 1.0, 1.0]
 |- style="background-color:#ddffdd;"
 | '''armorMultipliers'''
 | Affects armor values of aliens for different difficulty levels.
-| [0.5,1.0,1.0,1.0,1.0]
+| [0.5, 1.0, 1.0, 1.0, 1.0]
 |- style="background-color:#ddffdd;"
 | '''armorMultipliersAbs'''
 | Affects armor values of aliens for different difficulty levels. These are absolute values, not percentages.
-| [0,0,0,0,0]
+| [0, 0, 0, 0, 0]
 |-
 | '''statGrowthMultipliers'''
 | Affects unit stats of aliens for different difficulty levels.
@@ -9307,19 +9162,15 @@ More info: https://openxcom.org/forum/index.php/topic,11462.0.html
 | '''sellPriceCoefficient'''
 | Affects global sell prices. Defined in percent per difficulty level. Example:
 
-```yaml
   sellPriceCoefficient: [150, 100, 80, 60, 40]
 
-```
 | -
 |- style="background-color:#ddffdd;"
 | '''buyPriceCoefficient'''
 | Affects global buy prices. Defined in percent per difficulty level. Example:
 
-```yaml
   buyPriceCoefficient: [40, 60, 80, 100, 150]
 
-```
 | -
 |}
 
@@ -9343,8 +9194,8 @@ Some of these constants can be considered as difficulty settings, and vanilla ru
 | 50
 |-
 | '''fireDamageRange'''
-| Defines the damage range for incendiary weapons. Format is: [min,max].
-| [5,10]
+| Defines the damage range for incendiary weapons. Format is: [min, max].
+| [5, 10]
 |}
 
 These constants can be especially interesting for hybrid mods (UFO/TFTD hybrids).
@@ -9369,7 +9220,8 @@ Note: this defines the land explosion offset. Underwater explosion offset is sma
 | 0
 |}
 
-And there are a few OXCE-only constants, that were put into this section for technical reasons.
+<div style="background:#ddffdd;">And there are a few OXCE-only constants, that were put into this section for technical reasons.
+</div>
 
 {| class="wikitable" width="100%"
 ! width="150"| Value
@@ -9517,7 +9369,7 @@ The rest is defined in ''vars.rul'' (for TFTD), or left untouched at default val
 |-
 | '''windowPopup'''
 | Sounds played (one chosen randomly) when a window pops up.
-| [1,2,3]
+| [1, 2, 3]
 |-
 | '''ufoFire'''
 | Sound of a UFO firing.
@@ -9574,24 +9426,22 @@ The rest is defined in ''vars.rul'' (for TFTD), or left untouched at default val
 
 === Recommended/Fixed User Options ===
 
-OpenXcom offers various settings in the [[Options > Advanced]] screen.
+<div style="background:#ddffdd;">
+OpenXcom offers various settings in the [Options > Advanced] screen.
 
 Some of these settings however are actually not user settings, but rather mod settings. Or in other words, some settings are either not compatible with some mods or change the mod balance in an unacceptable way. Therefore, OXCE gives modders the option to fix these settings. i.e. set them to a desired value and not allow users to change them.
 
 All these fixed options are listed in ''"fixedUserOptions:"''. For example:
 
-```yaml
   fixedUserOptions:
     battleUFOExtenderAccuracy: true
     battleInstantGrenade: false
     allowPsiStrengthImprovement: false
 
-```
 Since OXCE v6.5.1, there is also a possibility to only recommend some settings... meaning the settings will be changed only once by a mod (when activated) and the user will still be able to change the settings manually.
 
 All these recommended options are listed in ''"recommendedUserOptions:"''. For example:
 
-```yaml
   recommendedUserOptions:
     oxceNightVisionColor: 2
     oxceManufactureScrollSpeed: 5
@@ -9599,10 +9449,10 @@ All these recommended options are listed in ''"recommendedUserOptions:"''. For e
     oxceResearchScrollSpeed: 1
     oxceResearchScrollSpeedWithCtrl: 5
 
-```
 Below is a list of possible options to fix, their default English names and possible values, grouped by category.
 * There are more options (than listed below) in each category, but they are real user settings, so we don't list them here.
 * The codes are the same as used in ''options.cfg'' configuration file.
+</div>
 
 ==== General ====
 
@@ -9741,6 +9591,7 @@ Below is a list of possible options to fix, their default English names and poss
 
 === Scripts ===
 
+<div style="background:#ddffdd;">
 OXCE offers the ability to use a custom '''scripting language''' to modify game logic on certain places via script hooks.
 
 Scripts that change game graphics are run every frame. Others like hitUnit are only run when the event itself happens.
@@ -9773,4 +9624,6 @@ Currently supported are ('''FIXME''' add short description to each hook):
 The syntax of the scripting language and a detailed description of the capabilities of each script hook is beyond the scope of this reference guide. For more information, see [[ModScript (OpenXcom)]].
 
 If you're interested, please seek help on the OXCE forum: https://openxcom.org/forum/index.php/board,39.0.html
+</div>
 
+[[Category:OpenXcom]]
