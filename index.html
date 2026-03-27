@@ -989,7 +989,8 @@ function httpGet(theUrl)
     return xmlhttp.response;
 }
 
-		document.body.innerHTML = TestParser({}).convert(httpGet("/OpenXcomExtendedEditor/Test.mediawiki"))
+		
+		document.addEventListener('DOMContentLoaded', function() { document.body.innerHTML = TestParser({}).convert(httpGet("/OpenXcomExtendedEditor/Test.mediawiki")); });
     </script>
   </head>
   <body>
