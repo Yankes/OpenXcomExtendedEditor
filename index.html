@@ -989,7 +989,7 @@ function httpGet(theUrl)
     return xmlhttp.response;
 }
 
-		document.body.innerHTML = p.convert(httpGet("/OpenXcomExtendedEditor/Test.mediawiki"))
+		document.body.innerHTML = TestParser({}).convert(httpGet("/OpenXcomExtendedEditor/Test.mediawiki"))
     </script>
   </head>
   <body>
